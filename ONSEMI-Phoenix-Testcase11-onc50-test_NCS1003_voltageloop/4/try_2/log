@@ -1,0 +1,1172 @@
+
+Loading /home/oiegorov/eldo.ini
+
+Running eldo on ies-ams-dev-14
+/ams/product/qa_install/qa_g3_11_2_beta3/aol/lib/libogr_64.so loaded.
+
+
+
+Copyright 1988 Mentor Graphics Corporation
+All Rights Reserved
+
+THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY
+INFORMATION WHICH ARE THE PROPERTY OF MENTOR
+GRAPHICS CORPORATION OR ITS LICENSORS AND IS
+SUBJECT TO LICENSE TERMS.
+
+
+
+***** SYSTEM INFORMATION ...
+
+*** User  : oiegorov@ies-ams-dev-14
+*** OS    : Red Hat Enterprise Linux Workstation release 6.2 (Santiago) [VCO = aol]
+*** CPU   :
+    Intel(R) Xeon(R) CPU           X5667  @ 3.07GHz
+    Number of physical processors     : 2
+    Hyper-Threading Technology        : disabled
+    Number of cpu cores               : 8
+    Number of logical processors      : 8
+*** Freq  : 3066.000MHz
+*** Cache : 12288 KB
+*** MEM   : 49545832 kB
+*** Date  : Fri Jul 13 15:56:42 2012
+
+
+***** PRE-PROCESSING ...
+
+Note 1021067: Premier in multi-threading mode (4 processors used)
+
+***** ANALYSIS ....
+
+Compiling file: /tmp/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop#inline1.va
+ up-to-date, nothing to be compiled
+
+***** 0  error(s). 
+***** 0  warning(s). 
+
+
+***** GENERATION ...
+
+Warning 252: In file "/home/oiegorov/eldo_examples/bad/ONSEMI-Phoenix_modified/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.cir" line 17570:
++   OBJECT "DL": Self-connected object not created.
+Warning 252: In file "/home/oiegorov/eldo_examples/bad/ONSEMI-Phoenix_modified/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.cir" line 17500:
++   OBJECT "DL": Self-connected object not created.
+Warning 1531: COMMAND .EXTRACT: Unable to parse expression YVAL(V(FS_DATA.BYPASS_SUBCKT_LOAD_QUOTA),END).
++   NODE "FS_DATA.BYPASS_SUBCKT_LOAD_QUOTA" not yet defined.
+Warning 1531: COMMAND .EXTRACT: Unable to parse expression YVAL(V(FS_DATA.BYPASS_SUBCKT_FACTOR_QUOTA),END).
++   NODE "FS_DATA.BYPASS_SUBCKT_FACTOR_QUOTA" not yet defined.
+Warning 1531: COMMAND .EXTRACT: Unable to parse expression YVAL(V(FS_DATA.BYPASS_BACKWARD_SOLVE_QUOTA),END).
++   NODE "FS_DATA.BYPASS_BACKWARD_SOLVE_QUOTA" not yet defined.
+Warning 1531: COMMAND .EXTRACT: Unable to parse expression YVAL(V(FS_DATA.BYPASS_FORWARD_QUOTA),END).
++   NODE "FS_DATA.BYPASS_FORWARD_QUOTA" not yet defined.
+Warning 1531: COMMAND .EXTRACT: Unable to parse expression YVAL(V(FS_DATA.BYPASS_EVAL_QUOTA),END).
++   NODE "FS_DATA.BYPASS_EVAL_QUOTA" not yet defined.
+Warning 1531: COMMAND .EXTRACT: Unable to parse expression MAX(V(FS_DATA.EVAL_ACTIVE_DEVICES)).
++   NODE "FS_DATA.EVAL_ACTIVE_DEVICES" not yet defined.
+Warning 397:  ISUB: Node X_X0.2 not found
+Warning 347: COMMAND ".PROBE": element X_X0.2 not declared or not allowed for this type of output.
+Warning 382: COMMAND .OPTION EPS Value set to 1.000000E-07
++   This setting gives higher accuracy than default tuning,
++   but simulation time may increase.
+
+***** 0  error(s). 
+***** 11  warning(s). 
+
+
+INFORMATION ABOUT COMPILATION...
+
+
+Memory space allocated (MB):    182
+665 elements
+211 nodes
+6 input signals
+
+***> Parsing Threads CPU TIME 0h 0mn 0s 170ms <***
+
+Note 1021018: Performing a new simulation
+
+Eldo VERSION : ELDO 12.1 (Engineering unqualified version) (64 bits) Wed Jul  4 16:18:27 GMT 2012
+
+*** DATE: 13-Jul-2012 15:56:45
+
+*** TITLE: *******21-Apr-11 *******  ELDO 2010.2  (v7.4_1.1)  *******21:06:19******
+
+TEMPERATURE : 27.000000 degrees C
+
+Searching Operating Point between -2.500000e+01V and 
+                                  5.000000e+01V
+1*******
+
+Note 1021005: Preparation of a DC simulation
+Note 68: The list of collapsed outputs has been saved in file /tmp/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.collapsed
+
+
+
+Eldo PREMIER: VNTOL=1.000000e-07 RELTOL=5.000000e-05
+
+  ->at max 4 processors being used.
+
+Note 1021177: Generation: 0h 0mn 1s (total: 0h 0mn 1s)
+Note 1021177: Elaboration (step 1): 0h 0mn 0s (total: 0h 0mn 1s)
+Note 1021177: Elaboration (step 2): 0h 0mn 0s (total: 0h 0mn 1s)
+Warning 1021119: NODE 'X_I0.X_I16.NET044' has less than two connections
+Warning 1021119: NODE 'X_I0.X_I16.NET043' has less than two connections
+Warning 1021119: NODE 'X_I0.X_I16.X_I38.NET055' has less than two connections
+Warning 1021119: NODE 'X_I0.X_I0.NET043' has less than two connections
+Note 1021177: Elaboration (step 3): 0h 0mn 0s (total: 0h 0mn 1s)
+
+Performing DC analysis...
+
+----------------------------------------------------
+Information about the partitioning ...
+
+Number of Newton Blocks : 0
+Total number of nodes                  : 0
+Total number of nodes in Newton Blocks : 0
+Circuit size solved by Newton          : 0.000000%
+----------------------------------------------------
+Note 1021096: Start reinit solvers
+Note 1021177: Solvers initialization: 0h 0mn 0s (total: 0h 0mn 1s)
+Note 1021177: Solvers generation: 0h 0mn 0s (total: 0h 0mn 1s)
+Note 1021051: DC elaboration completed (1813.314420 msec, 0h 0mn 1s 813ms)
+Note 1021028: Computing DC step using 'fixed Gmin' method.
+
+***>Threads CPU TIME 1s 450ms <***
+
+
+***>ELAPSED TIME 1s <***
+
+
+
+--> Performing Simplified G ramping  ...
+
+----------------------------------------------------
+Information about the partitioning ...
+
+Number of Newton Blocks : 0
+
+
+Total number of nodes                  : 0
+Total number of nodes in Newton Blocks : 0
+Circuit size solved by Newton          : 0.000000%
+----------------------------------------------------
+Note 1021051: DC elaboration completed (4366.846131 msec, 0h 0mn 4s 367ms)
+---> Simplified G RAMPING  : 0.000000%
+---> Simplified G RAMPING  : 10.000000%
+---> Simplified G RAMPING  : 20.000000%
+---> Simplified G RAMPING  : 30.000000%
+---> Simplified G RAMPING  : 40.000000%
+---> Simplified G RAMPING  : 50.000000%
+---> Simplified G RAMPING  : 60.000000%
+---> Simplified G RAMPING  : 70.000000%
+---> Simplified G RAMPING  : 80.000000%
+---> Simplified G RAMPING  : 90.000000%
+---> Simplified G RAMPING  : 100.000000%
+Note 1021007: DC simulation completed (10967.950503 msec, 0h 0mn 10s 968ms)
+Note 1021031: 
+DC simulation information:
+    Successful algorithm:                    'simplified G ramping'
+    Number of iterations:                13666
+
+
+
+***>Threads CPU TIME 34s 530ms <***
+
+
+***> DC ELAPSED TIME 13s <***
+
+DC:0 iterations FOR DC analysis
+
+Please, note that there are some diodes which are forward biased.
+See ascii output file for detail.
+
+   TOTAL POWER DISSIPATION:  0.0        WATTS
+
+
+***>Threads CPU TIME 34s 530ms <***
+
+
+DC convergence has achieved using:
+.OPTION GRAMP=9 
+
+----------------------------------------------------
+Information about the partitioning ...
+
+Number of Newton Blocks : 0
+
+
+Total number of nodes                  : 0
+Total number of nodes in Newton Blocks : 0
+Circuit size solved by Newton          : 0.000000%
+----------------------------------------------------
+
+Eldo PREMIER: VNTOL=1.000000e-07 RELTOL=5.000000e-05
+
+  ->at max 4 processors being used.
+
+Connecting to JWDB server, please wait...
+connected to wdb server : -jwdbhost ies-ams-dev-14 -jwdbport 44471
+
+Note 1021008: Preparation of a transient simulation
+Compute from 0.000000 Nano to 1.000000E+07 Nano
+................................................
+Simulation progress                : 1% (t = 100.0248 U)
+Threads CPU time                   :  0h  0mn  3s 640   ( 0h  0mn  3s 640)
+Elapsed time                       :  0h  0mn  1s   0   ( 0h  0mn  1s   0)
+CPU Usage                          : 297%               (297%)
+Estimated simulation CPU time      : 0h 6mn 3s 900
+Estimated simulation elapsed time  : 0h 1mn 39s 0
+Number of computed Time Steps      : 606                (606)
+Number of Rejected Time Steps      : 31                 (31)
+................................................
+Simulation progress                : 2% (t = 250.0000 U)
+Threads CPU time                   :  0h  0mn  0s 100   ( 0h  0mn  3s 740)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  1s   0)
+CPU Usage                          : 270%               (296%)
+Estimated simulation CPU time      : 0h 2mn 29s 600
+Estimated simulation elapsed time  : 0h 0mn 40s 0
+Number of computed Time Steps      : 20                 (626)
+Number of Rejected Time Steps      : 1                  (32)
+................................................
+Simulation progress                : 3% (t = 303.2104 U)
+Threads CPU time                   :  0h  0mn  0s 780   ( 0h  0mn  4s 520)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  1s   0)
+CPU Usage                          : 294%               (296%)
+Estimated simulation CPU time      : 0h 2mn 29s 70
+Estimated simulation elapsed time  : 0h 0mn 32s 0
+Number of computed Time Steps      : 135                (761)
+Number of Rejected Time Steps      : 13                 (45)
+................................................
+Simulation progress                : 4% (t = 400.7865 U)
+Threads CPU time                   :  0h  0mn  1s 200   ( 0h  0mn  5s 720)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  1s   0)
+CPU Usage                          : 294%               (296%)
+Estimated simulation CPU time      : 0h 2mn 22s 710
+Estimated simulation elapsed time  : 0h 0mn 24s 0
+Number of computed Time Steps      : 203                (964)
+Number of Rejected Time Steps      : 19                 (64)
+................................................
+Simulation progress                : 5% (t = 500.6760 U)
+Threads CPU time                   :  0h  0mn  1s 180   ( 0h  0mn  6s 900)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  2s   0)
+CPU Usage                          : 292%               (295%)
+Estimated simulation CPU time      : 0h 2mn 17s 810
+Estimated simulation elapsed time  : 0h 0mn 39s 0
+Number of computed Time Steps      : 201                (1165)
+Number of Rejected Time Steps      : 17                 (81)
+................................................
+Simulation progress                : 6% (t = 600.1429 U)
+Threads CPU time                   :  0h  0mn  1s 400   ( 0h  0mn  8s 300)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  2s   0)
+CPU Usage                          : 292%               (294%)
+Estimated simulation CPU time      : 0h 2mn 18s 300
+Estimated simulation elapsed time  : 0h 0mn 33s 0
+Number of computed Time Steps      : 246                (1411)
+Number of Rejected Time Steps      : 18                 (99)
+................................................
+Simulation progress                : 7% (t = 702.8981 U)
+Threads CPU time                   :  0h  0mn  1s 270   ( 0h  0mn  9s 570)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  3s   0)
+CPU Usage                          : 291%               (294%)
+Estimated simulation CPU time      : 0h 2mn 16s 150
+Estimated simulation elapsed time  : 0h 0mn 42s 0
+Number of computed Time Steps      : 225                (1636)
+Number of Rejected Time Steps      : 15                 (114)
+................................................
+Simulation progress                : 8% (t = 803.5068 U)
+Threads CPU time                   :  0h  0mn  1s 110   ( 0h  0mn 10s 680)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  3s   0)
+CPU Usage                          : 289%               (293%)
+Estimated simulation CPU time      : 0h 2mn 12s 910
+Estimated simulation elapsed time  : 0h 0mn 37s 0
+Number of computed Time Steps      : 205                (1841)
+Number of Rejected Time Steps      : 14                 (128)
+................................................
+Simulation progress                : 9% (t = 900.6711 U)
+Threads CPU time                   :  0h  0mn  1s 160   ( 0h  0mn 11s 840)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  4s   0)
+CPU Usage                          : 283%               (292%)
+Estimated simulation CPU time      : 0h 2mn 11s 450
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 206                (2047)
+Number of Rejected Time Steps      : 16                 (144)
+................................................
+Simulation progress                : 10% (t = 1.0000 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  0mn 13s  50)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  4s   0)
+CPU Usage                          : 291%               (292%)
+Estimated simulation CPU time      : 0h 2mn 10s 490
+Estimated simulation elapsed time  : 0h 0mn 39s 0
+Number of computed Time Steps      : 213                (2260)
+Number of Rejected Time Steps      : 16                 (160)
+................................................
+Simulation progress                : 11% (t = 1.1018 M)
+Threads CPU time                   :  0h  0mn  1s 970   ( 0h  0mn 15s  20)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  5s   0)
+CPU Usage                          : 286%               (291%)
+Estimated simulation CPU time      : 0h 2mn 16s 320
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 371                (2631)
+Number of Rejected Time Steps      : 31                 (191)
+................................................
+Simulation progress                : 12% (t = 1.2017 M)
+Threads CPU time                   :  0h  0mn  1s 670   ( 0h  0mn 16s 690)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  5s   0)
+CPU Usage                          : 292%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 880
+Estimated simulation elapsed time  : 0h 0mn 41s 0
+Number of computed Time Steps      : 309                (2940)
+Number of Rejected Time Steps      : 22                 (213)
+................................................
+Simulation progress                : 13% (t = 1.3003 M)
+Threads CPU time                   :  0h  0mn  1s 190   ( 0h  0mn 17s 880)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  6s   0)
+CPU Usage                          : 293%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 500
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 203                (3143)
+Number of Rejected Time Steps      : 19                 (232)
+................................................
+Simulation progress                : 14% (t = 1.4001 M)
+Threads CPU time                   :  0h  0mn  1s 290   ( 0h  0mn 19s 170)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  6s   0)
+CPU Usage                          : 295%               (292%)
+Estimated simulation CPU time      : 0h 2mn 16s 910
+Estimated simulation elapsed time  : 0h 0mn 42s 0
+Number of computed Time Steps      : 210                (3353)
+Number of Rejected Time Steps      : 22                 (254)
+................................................
+Simulation progress                : 15% (t = 1.5003 M)
+Threads CPU time                   :  0h  0mn  1s 570   ( 0h  0mn 20s 740)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  7s   0)
+CPU Usage                          : 294%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 230
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 261                (3614)
+Number of Rejected Time Steps      : 25                 (279)
+................................................
+Simulation progress                : 16% (t = 1.6005 M)
+Threads CPU time                   :  0h  0mn  1s 190   ( 0h  0mn 21s 930)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  7s   0)
+CPU Usage                          : 297%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 20
+Estimated simulation elapsed time  : 0h 0mn 43s 0
+Number of computed Time Steps      : 202                (3816)
+Number of Rejected Time Steps      : 14                 (293)
+................................................
+Simulation progress                : 17% (t = 1.7009 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  0mn 23s 140)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  7s   0)
+CPU Usage                          : 295%               (292%)
+Estimated simulation CPU time      : 0h 2mn 16s 40
+Estimated simulation elapsed time  : 0h 0mn 41s 0
+Number of computed Time Steps      : 205                (4021)
+Number of Rejected Time Steps      : 15                 (308)
+................................................
+Simulation progress                : 18% (t = 1.8007 M)
+Threads CPU time                   :  0h  0mn  1s 240   ( 0h  0mn 24s 380)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  8s   0)
+CPU Usage                          : 289%               (292%)
+Estimated simulation CPU time      : 0h 2mn 15s 380
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 214                (4235)
+Number of Rejected Time Steps      : 18                 (326)
+................................................
+Simulation progress                : 19% (t = 1.9000 M)
+Threads CPU time                   :  0h  0mn  1s 420   ( 0h  0mn 25s 800)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  8s   0)
+CPU Usage                          : 295%               (292%)
+Estimated simulation CPU time      : 0h 2mn 15s 780
+Estimated simulation elapsed time  : 0h 0mn 42s 0
+Number of computed Time Steps      : 238                (4473)
+Number of Rejected Time Steps      : 18                 (344)
+................................................
+Simulation progress                : 20% (t = 2.0002 M)
+Threads CPU time                   :  0h  0mn  1s 350   ( 0h  0mn 27s 150)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  9s   0)
+CPU Usage                          : 293%               (292%)
+Estimated simulation CPU time      : 0h 2mn 15s 730
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 229                (4702)
+Number of Rejected Time Steps      : 17                 (361)
+................................................
+Simulation progress                : 21% (t = 2.1088 M)
+Threads CPU time                   :  0h  0mn  1s 180   ( 0h  0mn 28s 330)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn  9s   0)
+CPU Usage                          : 296%               (292%)
+Estimated simulation CPU time      : 0h 2mn 14s 340
+Estimated simulation elapsed time  : 0h 0mn 42s 0
+Number of computed Time Steps      : 198                (4900)
+Number of Rejected Time Steps      : 13                 (374)
+................................................
+Simulation progress                : 22% (t = 2.2009 M)
+Threads CPU time                   :  0h  0mn  1s 660   ( 0h  0mn 29s 990)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 10s   0)
+CPU Usage                          : 295%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 260
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 302                (5202)
+Number of Rejected Time Steps      : 24                 (398)
+................................................
+Simulation progress                : 23% (t = 2.3000 M)
+Threads CPU time                   :  0h  0mn  1s 760   ( 0h  0mn 31s 750)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 10s   0)
+CPU Usage                          : 300%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 40
+Estimated simulation elapsed time  : 0h 0mn 43s 0
+Number of computed Time Steps      : 322                (5524)
+Number of Rejected Time Steps      : 25                 (423)
+................................................
+Simulation progress                : 24% (t = 2.4003 M)
+Threads CPU time                   :  0h  0mn  1s 490   ( 0h  0mn 33s 240)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 11s   0)
+CPU Usage                          : 296%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 480
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 248                (5772)
+Number of Rejected Time Steps      : 22                 (445)
+................................................
+Simulation progress                : 25% (t = 2.5007 M)
+Threads CPU time                   :  0h  0mn  1s 200   ( 0h  0mn 34s 440)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 11s   0)
+CPU Usage                          : 290%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 710
+Estimated simulation elapsed time  : 0h 0mn 43s 0
+Number of computed Time Steps      : 206                (5978)
+Number of Rejected Time Steps      : 18                 (463)
+................................................
+Simulation progress                : 26% (t = 2.6014 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  0mn 35s 650)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 12s   0)
+CPU Usage                          : 295%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 40
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 207                (6185)
+Number of Rejected Time Steps      : 18                 (481)
+................................................
+Simulation progress                : 27% (t = 2.7002 M)
+Threads CPU time                   :  0h  0mn  1s 240   ( 0h  0mn 36s 890)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 12s   0)
+CPU Usage                          : 298%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 620
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 211                (6396)
+Number of Rejected Time Steps      : 16                 (497)
+................................................
+Simulation progress                : 28% (t = 2.8008 M)
+Threads CPU time                   :  0h  0mn  1s 520   ( 0h  0mn 38s 410)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 13s   0)
+CPU Usage                          : 292%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 130
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 263                (6659)
+Number of Rejected Time Steps      : 20                 (517)
+................................................
+Simulation progress                : 29% (t = 2.9063 M)
+Threads CPU time                   :  0h  0mn  1s 310   ( 0h  0mn 39s 720)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 13s   0)
+CPU Usage                          : 297%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 660
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 213                (6872)
+Number of Rejected Time Steps      : 18                 (535)
+................................................
+Simulation progress                : 30% (t = 3.0014 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  0mn 40s 930)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 13s   0)
+CPU Usage                          : 289%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 360
+Estimated simulation elapsed time  : 0h 0mn 43s 0
+Number of computed Time Steps      : 203                (7075)
+Number of Rejected Time Steps      : 16                 (551)
+................................................
+Simulation progress                : 31% (t = 3.1007 M)
+Threads CPU time                   :  0h  0mn  1s 270   ( 0h  0mn 42s 200)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 14s   0)
+CPU Usage                          : 302%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 90
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 206                (7281)
+Number of Rejected Time Steps      : 18                 (569)
+................................................
+Simulation progress                : 32% (t = 3.2002 M)
+Threads CPU time                   :  0h  0mn  1s 460   ( 0h  0mn 43s 660)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 14s   0)
+CPU Usage                          : 289%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 420
+Estimated simulation elapsed time  : 0h 0mn 43s 0
+Number of computed Time Steps      : 252                (7533)
+Number of Rejected Time Steps      : 21                 (590)
+................................................
+Simulation progress                : 33% (t = 3.3013 M)
+Threads CPU time                   :  0h  0mn  1s 820   ( 0h  0mn 45s 480)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 15s   0)
+CPU Usage                          : 297%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 760
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 334                (7867)
+Number of Rejected Time Steps      : 26                 (616)
+................................................
+Simulation progress                : 34% (t = 3.4010 M)
+Threads CPU time                   :  0h  0mn  1s 590   ( 0h  0mn 47s  70)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 16s   0)
+CPU Usage                          : 288%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 400
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 296                (8163)
+Number of Rejected Time Steps      : 21                 (637)
+................................................
+Simulation progress                : 35% (t = 3.5006 M)
+Threads CPU time                   :  0h  0mn  1s 240   ( 0h  0mn 48s 310)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 16s   0)
+CPU Usage                          : 289%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 0
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 206                (8369)
+Number of Rejected Time Steps      : 22                 (659)
+................................................
+Simulation progress                : 36% (t = 3.6000 M)
+Threads CPU time                   :  0h  0mn  1s 460   ( 0h  0mn 49s 770)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 16s   0)
+CPU Usage                          : 290%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 240
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 246                (8615)
+Number of Rejected Time Steps      : 22                 (681)
+................................................
+Simulation progress                : 37% (t = 3.7026 M)
+Threads CPU time                   :  0h  0mn  1s 300   ( 0h  0mn 51s  70)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 17s   0)
+CPU Usage                          : 292%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 930
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 224                (8839)
+Number of Rejected Time Steps      : 15                 (696)
+................................................
+Simulation progress                : 38% (t = 3.8022 M)
+Threads CPU time                   :  0h  0mn  1s 170   ( 0h  0mn 52s 240)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 17s   0)
+CPU Usage                          : 289%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 390
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 206                (9045)
+Number of Rejected Time Steps      : 16                 (712)
+................................................
+Simulation progress                : 39% (t = 3.9001 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  0mn 53s 450)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 18s   0)
+CPU Usage                          : 292%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 40
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 206                (9251)
+Number of Rejected Time Steps      : 16                 (728)
+................................................
+Simulation progress                : 40% (t = 4.0000 M)
+Threads CPU time                   :  0h  0mn  1s 350   ( 0h  0mn 54s 800)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 18s   0)
+CPU Usage                          : 298%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 990
+Estimated simulation elapsed time  : 0h 0mn 44s 0
+Number of computed Time Steps      : 225                (9476)
+Number of Rejected Time Steps      : 18                 (746)
+................................................
+Simulation progress                : 41% (t = 4.1025 M)
+Threads CPU time                   :  0h  0mn  1s 470   ( 0h  0mn 56s 270)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 19s   0)
+CPU Usage                          : 287%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 160
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 247                (9723)
+Number of Rejected Time Steps      : 23                 (769)
+................................................
+Simulation progress                : 42% (t = 4.2001 M)
+Threads CPU time                   :  0h  0mn  1s 180   ( 0h  0mn 57s 450)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 19s   0)
+CPU Usage                          : 291%               (293%)
+Estimated simulation CPU time      : 0h 2mn 16s 780
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 202                (9925)
+Number of Rejected Time Steps      : 19                 (788)
+................................................
+Simulation progress                : 43% (t = 4.3009 M)
+Threads CPU time                   :  0h  0mn  1s 720   ( 0h  0mn 59s 170)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 20s   0)
+CPU Usage                          : 285%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 570
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 324                (10249)
+Number of Rejected Time Steps      : 26                 (814)
+................................................
+Simulation progress                : 44% (t = 4.4001 M)
+Threads CPU time                   :  0h  0mn  1s 810   ( 0h  1mn  0s 980)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 20s   0)
+CPU Usage                          : 299%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 580
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 320                (10569)
+Number of Rejected Time Steps      : 27                 (841)
+................................................
+Simulation progress                : 45% (t = 4.5004 M)
+Threads CPU time                   :  0h  0mn  1s 560   ( 0h  1mn  2s 540)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 21s   0)
+CPU Usage                          : 293%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 960
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 257                (10826)
+Number of Rejected Time Steps      : 24                 (865)
+................................................
+Simulation progress                : 46% (t = 4.6026 M)
+Threads CPU time                   :  0h  0mn  1s 270   ( 0h  1mn  3s 810)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 21s   0)
+CPU Usage                          : 297%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 630
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 207                (11033)
+Number of Rejected Time Steps      : 21                 (886)
+................................................
+Simulation progress                : 47% (t = 4.7005 M)
+Threads CPU time                   :  0h  0mn  1s 180   ( 0h  1mn  4s 990)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 22s   0)
+CPU Usage                          : 295%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 260
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 200                (11233)
+Number of Rejected Time Steps      : 15                 (901)
+................................................
+Simulation progress                : 48% (t = 4.8008 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  1mn  6s 200)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 22s   0)
+CPU Usage                          : 290%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 890
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 211                (11444)
+Number of Rejected Time Steps      : 19                 (920)
+................................................
+Simulation progress                : 49% (t = 4.9002 M)
+Threads CPU time                   :  0h  0mn  1s 460   ( 0h  1mn  7s 660)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 23s   0)
+CPU Usage                          : 294%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 70
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 247                (11691)
+Number of Rejected Time Steps      : 18                 (938)
+................................................
+Simulation progress                : 50% (t = 5.0024 M)
+Threads CPU time                   :  0h  0mn  1s 320   ( 0h  1mn  8s 980)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 23s   0)
+CPU Usage                          : 288%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 890
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 222                (11913)
+Number of Rejected Time Steps      : 17                 (955)
+................................................
+Simulation progress                : 51% (t = 5.1026 M)
+Threads CPU time                   :  0h  0mn  1s 220   ( 0h  1mn 10s 200)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 23s   0)
+CPU Usage                          : 289%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 570
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 205                (12118)
+Number of Rejected Time Steps      : 15                 (970)
+................................................
+Simulation progress                : 52% (t = 5.2005 M)
+Threads CPU time                   :  0h  0mn  1s 260   ( 0h  1mn 11s 460)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 24s   0)
+CPU Usage                          : 292%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 400
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 207                (12325)
+Number of Rejected Time Steps      : 17                 (987)
+................................................
+Simulation progress                : 53% (t = 5.3001 M)
+Threads CPU time                   :  0h  0mn  1s 340   ( 0h  1mn 12s 800)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 24s   0)
+CPU Usage                          : 292%               (293%)
+Estimated simulation CPU time      : 0h 2mn 17s 350
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 228                (12553)
+Number of Rejected Time Steps      : 22                 (1009)
+................................................
+Simulation progress                : 54% (t = 5.4002 M)
+Threads CPU time                   :  0h  0mn  1s 990   ( 0h  1mn 14s 790)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 25s   0)
+CPU Usage                          : 290%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 490
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 354                (12907)
+Number of Rejected Time Steps      : 27                 (1036)
+................................................
+Simulation progress                : 55% (t = 5.5044 M)
+Threads CPU time                   :  0h  0mn  1s 570   ( 0h  1mn 16s 360)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 26s   0)
+CPU Usage                          : 295%               (293%)
+Estimated simulation CPU time      : 0h 2mn 18s 720
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 285                (13192)
+Number of Rejected Time Steps      : 18                 (1054)
+................................................
+Simulation progress                : 56% (t = 5.6011 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  1mn 17s 570)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 26s   0)
+CPU Usage                          : 284%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 490
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 206                (13398)
+Number of Rejected Time Steps      : 19                 (1073)
+................................................
+Simulation progress                : 57% (t = 5.7001 M)
+Threads CPU time                   :  0h  0mn  1s 260   ( 0h  1mn 18s 830)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 26s   0)
+CPU Usage                          : 282%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 290
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 214                (13612)
+Number of Rejected Time Steps      : 17                 (1090)
+................................................
+Simulation progress                : 58% (t = 5.8001 M)
+Threads CPU time                   :  0h  0mn  1s 480   ( 0h  1mn 20s 310)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 27s   0)
+CPU Usage                          : 290%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 460
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 259                (13871)
+Number of Rejected Time Steps      : 19                 (1109)
+................................................
+Simulation progress                : 59% (t = 5.9067 M)
+Threads CPU time                   :  0h  0mn  1s 270   ( 0h  1mn 21s 580)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 27s   0)
+CPU Usage                          : 299%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 110
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 208                (14079)
+Number of Rejected Time Steps      : 15                 (1124)
+................................................
+Simulation progress                : 60% (t = 6.0014 M)
+Threads CPU time                   :  0h  0mn  1s 240   ( 0h  1mn 22s 820)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 28s   0)
+CPU Usage                          : 295%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 0
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 205                (14284)
+Number of Rejected Time Steps      : 16                 (1140)
+................................................
+Simulation progress                : 61% (t = 6.1008 M)
+Threads CPU time                   :  0h  0mn  1s 240   ( 0h  1mn 24s  60)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 28s   0)
+CPU Usage                          : 291%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 780
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 208                (14492)
+Number of Rejected Time Steps      : 16                 (1156)
+................................................
+Simulation progress                : 62% (t = 6.2000 M)
+Threads CPU time                   :  0h  0mn  1s 480   ( 0h  1mn 25s 540)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 29s   0)
+CPU Usage                          : 291%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 960
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 250                (14742)
+Number of Rejected Time Steps      : 18                 (1174)
+................................................
+Simulation progress                : 63% (t = 6.3046 M)
+Threads CPU time                   :  0h  0mn  1s 300   ( 0h  1mn 26s 840)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 29s   0)
+CPU Usage                          : 291%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 740
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 221                (14963)
+Number of Rejected Time Steps      : 19                 (1193)
+................................................
+Simulation progress                : 64% (t = 6.4018 M)
+Threads CPU time                   :  0h  0mn  1s 190   ( 0h  1mn 28s  30)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 30s   0)
+CPU Usage                          : 289%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 500
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 201                (15164)
+Number of Rejected Time Steps      : 16                 (1209)
+................................................
+Simulation progress                : 65% (t = 6.5015 M)
+Threads CPU time                   :  0h  0mn  1s 720   ( 0h  1mn 29s 750)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 30s   0)
+CPU Usage                          : 287%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 40
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 319                (15483)
+Number of Rejected Time Steps      : 24                 (1233)
+................................................
+Simulation progress                : 66% (t = 6.6000 M)
+Threads CPU time                   :  0h  0mn  1s 870   ( 0h  1mn 31s 620)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 31s   0)
+CPU Usage                          : 284%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 810
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 343                (15826)
+Number of Rejected Time Steps      : 23                 (1256)
+................................................
+Simulation progress                : 67% (t = 6.7032 M)
+Threads CPU time                   :  0h  0mn  1s 370   ( 0h  1mn 32s 990)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 31s   0)
+CPU Usage                          : 298%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 720
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 230                (16056)
+Number of Rejected Time Steps      : 17                 (1273)
+................................................
+Simulation progress                : 68% (t = 6.8045 M)
+Threads CPU time                   :  0h  0mn  1s 170   ( 0h  1mn 34s 160)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 32s   0)
+CPU Usage                          : 288%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 370
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 205                (16261)
+Number of Rejected Time Steps      : 16                 (1289)
+................................................
+Simulation progress                : 69% (t = 6.9015 M)
+Threads CPU time                   :  0h  0mn  1s 190   ( 0h  1mn 35s 350)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 32s   0)
+CPU Usage                          : 286%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 150
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 206                (16467)
+Number of Rejected Time Steps      : 16                 (1305)
+................................................
+Simulation progress                : 70% (t = 7.0001 M)
+Threads CPU time                   :  0h  0mn  1s 260   ( 0h  1mn 36s 610)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 33s   0)
+CPU Usage                          : 275%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 10
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 213                (16680)
+Number of Rejected Time Steps      : 20                 (1325)
+................................................
+Simulation progress                : 71% (t = 7.1003 M)
+Threads CPU time                   :  0h  0mn  1s 490   ( 0h  1mn 38s 100)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 33s   0)
+CPU Usage                          : 285%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 160
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 258                (16938)
+Number of Rejected Time Steps      : 23                 (1348)
+................................................
+Simulation progress                : 72% (t = 7.2013 M)
+Threads CPU time                   :  0h  0mn  1s 190   ( 0h  1mn 39s 290)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 33s   0)
+CPU Usage                          : 299%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 870
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 201                (17139)
+Number of Rejected Time Steps      : 15                 (1363)
+................................................
+Simulation progress                : 73% (t = 7.3015 M)
+Threads CPU time                   :  0h  0mn  1s 170   ( 0h  1mn 40s 460)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 34s   0)
+CPU Usage                          : 294%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 580
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 203                (17342)
+Number of Rejected Time Steps      : 18                 (1381)
+................................................
+Simulation progress                : 74% (t = 7.4003 M)
+Threads CPU time                   :  0h  0mn  1s 300   ( 0h  1mn 41s 760)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 34s   0)
+CPU Usage                          : 291%               (292%)
+Estimated simulation CPU time      : 0h 2mn 17s 500
+Estimated simulation elapsed time  : 0h 0mn 45s 0
+Number of computed Time Steps      : 211                (17553)
+Number of Rejected Time Steps      : 20                 (1401)
+................................................
+Simulation progress                : 75% (t = 7.5008 M)
+Threads CPU time                   :  0h  0mn  2s  90   ( 0h  1mn 43s 850)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 35s   0)
+CPU Usage                          : 287%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 450
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 377                (17930)
+Number of Rejected Time Steps      : 31                 (1432)
+................................................
+Simulation progress                : 76% (t = 7.6019 M)
+Threads CPU time                   :  0h  0mn  1s 690   ( 0h  1mn 45s 540)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 36s   0)
+CPU Usage                          : 295%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 830
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 302                (18232)
+Number of Rejected Time Steps      : 24                 (1456)
+................................................
+Simulation progress                : 77% (t = 7.7008 M)
+Threads CPU time                   :  0h  0mn  1s 240   ( 0h  1mn 46s 780)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 36s   0)
+CPU Usage                          : 300%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 660
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 205                (18437)
+Number of Rejected Time Steps      : 16                 (1472)
+................................................
+Simulation progress                : 78% (t = 7.8003 M)
+Threads CPU time                   :  0h  0mn  1s 200   ( 0h  1mn 47s 980)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 36s   0)
+CPU Usage                          : 283%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 430
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 211                (18648)
+Number of Rejected Time Steps      : 18                 (1490)
+................................................
+Simulation progress                : 79% (t = 7.9000 M)
+Threads CPU time                   :  0h  0mn  1s 410   ( 0h  1mn 49s 390)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 37s   0)
+CPU Usage                          : 280%               (292%)
+Estimated simulation CPU time      : 0h 2mn 18s 460
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 243                (18891)
+Number of Rejected Time Steps      : 18                 (1508)
+................................................
+Simulation progress                : 80% (t = 8.0029 M)
+Threads CPU time                   :  0h  0mn  1s 340   ( 0h  1mn 50s 730)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 37s   0)
+CPU Usage                          : 288%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 360
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 228                (19119)
+Number of Rejected Time Steps      : 15                 (1523)
+................................................
+Simulation progress                : 81% (t = 8.1016 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  1mn 51s 940)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 38s   0)
+CPU Usage                          : 292%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 170
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 203                (19322)
+Number of Rejected Time Steps      : 20                 (1543)
+................................................
+Simulation progress                : 82% (t = 8.2002 M)
+Threads CPU time                   :  0h  0mn  1s 230   ( 0h  1mn 53s 170)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 38s   0)
+CPU Usage                          : 290%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 0
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 205                (19527)
+Number of Rejected Time Steps      : 15                 (1558)
+................................................
+Simulation progress                : 83% (t = 8.3001 M)
+Threads CPU time                   :  0h  0mn  1s 310   ( 0h  1mn 54s 480)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 39s   0)
+CPU Usage                          : 278%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 920
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 229                (19756)
+Number of Rejected Time Steps      : 21                 (1579)
+................................................
+Simulation progress                : 84% (t = 8.4002 M)
+Threads CPU time                   :  0h  0mn  1s 410   ( 0h  1mn 55s 890)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 39s   0)
+CPU Usage                          : 296%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 960
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 236                (19992)
+Number of Rejected Time Steps      : 15                 (1594)
+................................................
+Simulation progress                : 85% (t = 8.5049 M)
+Threads CPU time                   :  0h  0mn  1s 250   ( 0h  1mn 57s 140)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 40s   0)
+CPU Usage                          : 292%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 730
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 205                (20197)
+Number of Rejected Time Steps      : 19                 (1613)
+................................................
+Simulation progress                : 86% (t = 8.6036 M)
+Threads CPU time                   :  0h  0mn  1s 630   ( 0h  1mn 58s 770)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 40s   0)
+CPU Usage                          : 288%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 40
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 304                (20501)
+Number of Rejected Time Steps      : 24                 (1637)
+................................................
+Simulation progress                : 87% (t = 8.7001 M)
+Threads CPU time                   :  0h  0mn  1s 660   ( 0h  2mn  0s 430)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 41s   0)
+CPU Usage                          : 284%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 420
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 310                (20811)
+Number of Rejected Time Steps      : 18                 (1655)
+................................................
+Simulation progress                : 88% (t = 8.8004 M)
+Threads CPU time                   :  0h  0mn  1s 470   ( 0h  2mn  1s 900)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 41s   0)
+CPU Usage                          : 290%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 510
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 259                (21070)
+Number of Rejected Time Steps      : 18                 (1673)
+................................................
+Simulation progress                : 89% (t = 8.9071 M)
+Threads CPU time                   :  0h  0mn  1s 200   ( 0h  2mn  3s 100)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 42s   0)
+CPU Usage                          : 283%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 200
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 208                (21278)
+Number of Rejected Time Steps      : 15                 (1688)
+................................................
+Simulation progress                : 90% (t = 9.0010 M)
+Threads CPU time                   :  0h  0mn  1s 210   ( 0h  2mn  4s 310)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 42s   0)
+CPU Usage                          : 295%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 100
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 204                (21482)
+Number of Rejected Time Steps      : 15                 (1703)
+................................................
+Simulation progress                : 91% (t = 9.1007 M)
+Threads CPU time                   :  0h  0mn  1s 250   ( 0h  2mn  5s 560)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 43s   0)
+CPU Usage                          : 281%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 960
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 208                (21690)
+Number of Rejected Time Steps      : 16                 (1719)
+................................................
+Simulation progress                : 92% (t = 9.2001 M)
+Threads CPU time                   :  0h  0mn  1s 440   ( 0h  2mn  7s   0)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 43s   0)
+CPU Usage                          : 293%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 40
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 251                (21941)
+Number of Rejected Time Steps      : 18                 (1737)
+................................................
+Simulation progress                : 93% (t = 9.3039 M)
+Threads CPU time                   :  0h  0mn  1s 270   ( 0h  2mn  8s 270)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 43s   0)
+CPU Usage                          : 290%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 860
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 216                (22157)
+Number of Rejected Time Steps      : 19                 (1756)
+................................................
+Simulation progress                : 94% (t = 9.4010 M)
+Threads CPU time                   :  0h  0mn  1s 190   ( 0h  2mn  9s 460)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 44s   0)
+CPU Usage                          : 284%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 700
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 204                (22361)
+Number of Rejected Time Steps      : 18                 (1774)
+................................................
+Simulation progress                : 95% (t = 9.5000 M)
+Threads CPU time                   :  0h  0mn  1s 270   ( 0h  2mn 10s 730)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 44s   0)
+CPU Usage                          : 287%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 610
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 206                (22567)
+Number of Rejected Time Steps      : 23                 (1797)
+................................................
+Simulation progress                : 96% (t = 9.6000 M)
+Threads CPU time                   :  0h  0mn  1s 430   ( 0h  2mn 12s 160)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 45s   0)
+CPU Usage                          : 297%               (291%)
+Estimated simulation CPU time      : 0h 2mn 17s 660
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 237                (22804)
+Number of Rejected Time Steps      : 24                 (1821)
+................................................
+Simulation progress                : 97% (t = 9.7034 M)
+Threads CPU time                   :  0h  0mn  1s 940   ( 0h  2mn 14s 100)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 46s   0)
+CPU Usage                          : 288%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 190
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 353                (23157)
+Number of Rejected Time Steps      : 29                 (1850)
+................................................
+Simulation progress                : 98% (t = 9.8039 M)
+Threads CPU time                   :  0h  0mn  1s 660   ( 0h  2mn 15s 760)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 46s   0)
+CPU Usage                          : 289%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 470
+Estimated simulation elapsed time  : 0h 0mn 46s 0
+Number of computed Time Steps      : 309                (23466)
+Number of Rejected Time Steps      : 23                 (1873)
+................................................
+Simulation progress                : 99% (t = 9.9013 M)
+Threads CPU time                   :  0h  0mn  1s 220   ( 0h  2mn 16s 980)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 47s   0)
+CPU Usage                          : 282%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 340
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 206                (23672)
+Number of Rejected Time Steps      : 16                 (1889)
+................................................
+Simulation progress                : 100% (t = 10.0000 M)
+Threads CPU time                   :  0h  0mn  1s 270   ( 0h  2mn 18s 250)
+Elapsed time                       :  0h  0mn  0s   0   ( 0h  0mn 47s   0)
+CPU Usage                          : 292%               (291%)
+Estimated simulation CPU time      : 0h 2mn 18s 250
+Estimated simulation elapsed time  : 0h 0mn 47s 0
+Number of computed Time Steps      : 213                (23885)
+Number of Rejected Time Steps      : 19                 (1908)
+
+
+***>Current simulation completed
+
+
+ TOTAL_TRAN_COUNT =  2.5792E+04   
+ TOTAL_NB_ACCEPTED =  2.3885E+04   
+ TOTAL_NB_REJECTED =  1.9070E+03   
+ TOTAL_NB_LTE_REJECTED =  1.6520E+03   
+ TOLAL_NB_NON_CVG_REJECTED =  2.5500E+02   
+ TOTAL_ITERS =  8.5775E+04   
+ NB_ITERS_PER_STEP =  3.3256E+00   
+ MAX_NB_ITERS =  1.0000E+01   
+ REJECT_RATIO =  7.3938E+00   
+ LTE_REJECT_RATIO =  6.4051E+00   
+ NONCVG_REJECT_RATIO =  9.8868E-01   
+BYPASS_SUBCKT_LOAD_QUOTA cannot be measured (It references an unknown node).
+BYPASS_SUBCKT_FACTOR_QUOTA cannot be measured (It references an unknown node).
+BYPASS_BACKWARD_SOLVE_QUOTA cannot be measured (It references an unknown node).
+BYPASS_FORWARD_QUOTA cannot be measured (It references an unknown node).
+BYPASS_EVAL_QUOTA cannot be measured (It references an unknown node).
+EVAL_ACTIVE_DEVICES cannot be measured (It references an unknown node).
+ TOTAL_NB_REORDER =  0.0          
+ TOTAL_NB_FPE =  2.1800E+02   
+ AVERAGE(I(V_V0)) = -1.8998E-04   
+
+
+SIMULATION INFORMATION 
+memory size allocated in Mbytes  328.7
+Latency: 0.000000%
+average number of newton iterations: 0.000000
+nb of components: 455
+nb of nodes: 1460
+nb of MOS or BIP calls: 6479969
+Number of steps computed: 23885
+
+***>Threads CPU TIME 2mn 18s 280ms <***
+
+Note 1021012: Transient simulation completed (47446.083003 msec, 0h 0mn 47s 446ms)
+Note 1021030: 
+Transient simulation information:
+    Number of time steps computed:       25792
+    Number of time steps rejected:        1907
+    Number of iterations:                85775
+    Average iterations per step:           3.3
+
+
+Note 1021013: All simulations completed (61667.796795 msec, 0h 1mn 1s 668ms)
+***>MESSAGE SUMMARY: 11 warnings, 1 note
+Note 1021014: Eldo Premier session completed
+
+***>GLOBAL Threads CPU TIME 2mn 57s 480ms <***
+
+
+***>GLOBAL ELAPSED TIME 1mn 4s <***
+
+
+Summary
+-------
+
+Elapsed Time:  63.956

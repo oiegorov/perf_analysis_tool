@@ -1,0 +1,14 @@
+{
+  "view":
+  {
+    "circuit":
+    ["/home/oiegorov/eldo_examples/bad/test_PLL_modified/test_PLLrevF_sstPLLsch0-tran.cir",
+    "/home/oiegorov/eldo_examples/bad/ONSEMI-Phoenix_modified/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.cir"],
+    "num_cores": [ "1", "4" ]
+  },
+  "report": ["hw-events"],
+  "events": ["CPU_CLK_UNHALTED.THREAD", "INST_RETIRED.ANY"],
+  "func_num": [ "15" ],
+  "func_pattern": [".*"],
+  "same_experim": ["true"]
+}

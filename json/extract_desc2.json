@@ -1,0 +1,7 @@
+{
+  "view": "all",
+  "func_num": [ "10" ],
+  "func_pattern": ["schur*", "solve*"],
+  "events": ["CPI", "CPU_CLK_UNHALTED.THREAD"],
+  "same_experim": ["true"]
+}
