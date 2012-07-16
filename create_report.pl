@@ -6,12 +6,44 @@ use Data::Dumper;
 use ManipulateJSON "decode_json_file";
 use ParseAmplReport qw(parse_ampl_report);
 
+## Parse metric and calculate its value
+sub calculate_metric {
+  my $formula = $_[0];
+  my $func_values = $_[1];
+
+  ## Dots are not allowed in var names in Math::Symbolic
+  $formula =~ s/\./_DOT_/g;
+
+  ## Parse metric formula
+  use Math::Symbolic;
+  my $tree = Math::Symbolic->parse_from_string($formula);
+  my ($sub) = Math::Symbolic::Compiler->compile_to_sub($tree);
+
+  ## Substitute dots back
+  $formula =~ s/_DOT_/./g;
+
+  ## Extract hw event names from the formula, sort them alphabetically
+  ## Sorting is needed to make $sub work properly
+  my @event_names = sort ( $formula =~ m/[^0-9\/\+\*\-]+/g );
+
+  ## Create an array of event values in corresponding order
+  my @event_vals;
+  for (@event_names) {
+    push @event_vals, $func_values->{$_}; 
+  }
+
+  ## Substitute hw event values into formula and get the result
+  my $result = $sub->(@event_vals);
+
+  return $result;
+}
+
 my $views = decode_json_file("json/views.json");
 my $extract_desc = decode_json_file("json/extract_desc.json");
 
 # for each type of the report, call the corresponding script to generate
 my $reports = parse_ampl_report($views, $extract_desc);
-#print Dumper $reports;
+print Dumper $reports;
 
 my $top_n = shift @{$extract_desc->{"func_num"}};
 my @events = @{$extract_desc->{"events"}};
@@ -49,19 +81,20 @@ for my $report_name (@{$reports}) {
     my $func_name = $sorted[$i];
     print $i+1 .". $func_name ";
     for my $event (@events) {
-      #here we must take into account metric calculation;
-      #my $metric_formulas = decode_json_file("json/metrics.json");
-      #if (exists $metric_formulas->{$event}) {
-      #  print "yeyeyeyeye\n";
+
+      my $metric_formulas = decode_json_file("json/metrics.json");
+      ## If specified event is actually a metric
+      if (exists $metric_formulas->{$event}) {
+        ## Calculate its value
+        my $val = calculate_metric($metric_formulas->{$event}, $func_pattern_hash{$func_name});
+        print "\t".$val;
+      }
         
-      #}
-      #else {
+      else {
         print "\t".$func_pattern_hash{$func_name}->{$event};
-      #}
+      }
     }
     print "\n";
-    #print Dumper $func_pattern_hash{$func_name};
   }
 }
 
-# depending on the filters from $extract_desc, generate custom reports
