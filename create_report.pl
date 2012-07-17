@@ -42,8 +42,8 @@ my $views = decode_json_file("json/views.json");
 my $extract_desc = decode_json_file("json/extract_desc.json");
 
 # for each type of the report, call the corresponding script to generate
-my $reports = parse_ampl_report($views, $extract_desc);
-print Dumper $reports;
+my ($reports, $total_event_count_files) = parse_ampl_report($views, $extract_desc);
+print Dumper $total_event_count_files;
 
 my $top_n = shift @{$extract_desc->{"func_num"}};
 my @events = @{$extract_desc->{"events"}};
@@ -77,6 +77,9 @@ for my $report_name (@{$reports}) {
   my @sorted = sort {$func_pattern_hash{$a}->{"rang"} <=>
     $func_pattern_hash{$b}->{"rang"}} keys %func_pattern_hash;
 
+  ## Contains {"event"->"sum"} for chosen events of all selected functions
+  my %partial_event_sum;
+
   for (my $i = 0; $i < $top_n; $i++) {
     my $func_name = $sorted[$i];
     print $i+1 .". $func_name ";
@@ -92,9 +95,11 @@ for my $report_name (@{$reports}) {
         
       else {
         print "\t".$func_pattern_hash{$func_name}->{$event};
+        $partial_event_sum{$event} += $func_pattern_hash{$func_name}->{$event};
       }
     }
     print "\n";
   }
+
 }
 

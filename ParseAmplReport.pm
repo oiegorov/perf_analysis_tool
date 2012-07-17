@@ -16,11 +16,15 @@ sub parse_hwevents {
   my $views = $_[0];
 
   my @parsed_reports;
+  my @event_count_files;
 
   for my $view_path (keys %{$views}) {
     my $result_folder = shift @{$views->{$view_path}{"profiler_outpath"}}; 
     my $ampl_report = $result_folder."ampl_report_hwevents.csv";
     my $parsed_report_name = "$result_folder"."parsed_report_hwevents.json";
+
+    my $total_event_count_file = "$result_folder"."total_event_count.json";
+    push @event_count_files, $total_event_count_file;
 
     ## Do not generate an amplifier report if it already exists
     if (! -e $parsed_report_name) {  
@@ -48,6 +52,10 @@ sub parse_hwevents {
 
 
       my %result_hash;
+      my %total_event_count;
+      for my $event_name (@hw_events) {
+        $total_event_count{$event_name} = 0;
+      }
 
       #for each function line
       # memorize first field as function's name
@@ -70,6 +78,7 @@ sub parse_hwevents {
         for (my $j = 2; $j < scalar(@{$file_arr[$i]}); $j++) {
           my $hw_event_index = $j - 2;
           $func_hash{"$hw_events[$hw_event_index]"} = $file_arr[$i]->[$j];
+          $total_event_count{"$hw_events[$hw_event_index]"} += $file_arr[$i]->[$j];
         }
 
         $result_hash{$func_name} = \%func_hash;
@@ -78,12 +87,15 @@ sub parse_hwevents {
       open(FH, ">$parsed_report_name") || die "Cannot open file: $!\n" ;
       print FH to_json(\%result_hash, {pretty => 1});
       close(FH);
+      open(FH, ">$total_event_count_file") || die "Cannot open file: $!\n" ;
+      print FH to_json(\%total_event_count, {pretty => 1});
+      close(FH);
     }
 
     push(@parsed_reports, $parsed_report_name);
   }
 
-  return \@parsed_reports;
+  return (\@parsed_reports, \@event_count_files);
 
 }
 
