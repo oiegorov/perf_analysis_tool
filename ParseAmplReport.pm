@@ -15,8 +15,8 @@ sub parse_hwevents {
 
   my $views = $_[0];
 
-  my @parsed_reports;
-  my @event_count_files;
+  my %parsed_reports;
+  #my @event_count_files;
 
   for my $view_path (keys %{$views}) {
     my $result_folder = shift @{$views->{$view_path}{"profiler_outpath"}}; 
@@ -24,7 +24,7 @@ sub parse_hwevents {
     my $parsed_report_name = "$result_folder"."parsed_report_hwevents.json";
 
     my $total_event_count_file = "$result_folder"."total_event_count.json";
-    push @event_count_files, $total_event_count_file;
+    #push @event_count_files, $total_event_count_file;
 
     ## Do not generate an amplifier report if it already exists
     if (! -e $parsed_report_name) {  
@@ -92,10 +92,11 @@ sub parse_hwevents {
       close(FH);
     }
 
-    push(@parsed_reports, $parsed_report_name);
+    #push(@parsed_reports, $parsed_report_name);
+    $parsed_reports{$parsed_report_name} = $total_event_count_file;
   }
 
-  return (\@parsed_reports, \@event_count_files);
+  return \%parsed_reports;
 
 }
 

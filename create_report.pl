@@ -42,14 +42,13 @@ my $views = decode_json_file("json/views.json");
 my $extract_desc = decode_json_file("json/extract_desc.json");
 
 # for each type of the report, call the corresponding script to generate
-my ($reports, $total_event_count_files) = parse_ampl_report($views, $extract_desc);
-print Dumper $total_event_count_files;
+my $reports = parse_ampl_report($views, $extract_desc);
 
 my $top_n = shift @{$extract_desc->{"func_num"}};
 my @events = @{$extract_desc->{"events"}};
 my $func_pattern = $extract_desc->{"func_pattern"}[0];
 
-for my $report_name (@{$reports}) {
+for my $report_name (keys %{$reports}) {
   
   print "\n";
   print "-------------------------------------------";
@@ -64,6 +63,8 @@ for my $report_name (@{$reports}) {
 
 
   my $parsed_report = decode_json_file("$report_name");
+  my $total_event_count_file = decode_json_file($reports->{$report_name});
+  
   my %func_pattern_hash;
 
   ## Choose functions which correspond to user-specified pattern
@@ -98,8 +99,16 @@ for my $report_name (@{$reports}) {
         $partial_event_sum{$event} += $func_pattern_hash{$func_name}->{$event};
       }
     }
+    
     print "\n";
   }
 
+  print "\n";
+  print "\t\t";
+  for my $selected_event (keys %partial_event_sum) {
+    my $percent = $partial_event_sum{$selected_event}/$total_event_count_file->{$selected_event}*100;
+    print "\t$percent\%";
+  }
+  print "\n";
 }
 
