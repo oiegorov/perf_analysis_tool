@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use JSON;
 use Data::Dumper;
+use 5.0100;
 
 use ManipulateJSON "decode_json_file";
 use ParseAmplReport qw(parse_ampl_report);
@@ -29,12 +30,23 @@ sub calculate_metric {
   ## Create an array of event values in corresponding order
   my @event_vals;
   for (@event_names) {
-    push @event_vals, $func_values->{$_}; 
+      push @event_vals, $func_values->{$_}; 
   }
 
   ## Substitute hw event values into formula and get the result
-  my $result = $sub->(@event_vals);
-
+  my $result;
+  eval {
+    $result = $sub->(@event_vals);
+  };
+  if ($@) {
+    if($@ =~ /Illegal division by zero/) {
+      return "undefined";
+    } 
+    else {
+      die $@;
+    }
+  }
+    
   return $result;
 }
 
@@ -55,9 +67,10 @@ for my $report_name (keys %{$reports}) {
   print $report_name;
   print "-------------------------------------------\n";
   print "\n";
-  print "Function ";
+  printf "%-4s", " ";
+  printf "%-45s", "Function";
   for my $event (@events) {
-    print "\t".$event;
+    printf "%-30s", "$event";
   }
   print "\n";
 
@@ -83,7 +96,8 @@ for my $report_name (keys %{$reports}) {
 
   for (my $i = 0; $i < $top_n; $i++) {
     my $func_name = $sorted[$i];
-    print $i+1 .". $func_name ";
+    printf "%-4s", $i+1;
+    printf "%-45s", "$func_name";
     for my $event (@events) {
 
       my $metric_formulas = decode_json_file("json/metrics.json");
@@ -91,11 +105,16 @@ for my $report_name (keys %{$reports}) {
       if (exists $metric_formulas->{$event}) {
         ## Calculate its value
         my $val = calculate_metric($metric_formulas->{$event}, $func_pattern_hash{$func_name});
-        print "\t".$val;
+        if ($val ne "undefined") {
+          printf "%-30.3f", $val;
+        }
+        else {
+          printf "%-30s", $val;
+        }
       }
         
       else {
-        print "\t".$func_pattern_hash{$func_name}->{$event};
+        printf "%-30s", "$func_pattern_hash{$func_name}->{$event}";
         $partial_event_sum{$event} += $func_pattern_hash{$func_name}->{$event};
       }
     }
@@ -104,10 +123,16 @@ for my $report_name (keys %{$reports}) {
   }
 
   print "\n";
-  print "\t\t";
+  printf "%-49s", " ";
   for my $selected_event (keys %partial_event_sum) {
-    my $percent = $partial_event_sum{$selected_event}/$total_event_count_file->{$selected_event}*100;
-    print "\t$percent\%";
+    if ($total_event_count_file->{$selected_event} ne "0") {
+      my $percent = $partial_event_sum{$selected_event} /
+        $total_event_count_file->{$selected_event} * 100;
+      printf "%-30.3f", $percent ;
+    }
+    else {
+      printf "%-30s", "illegal division by zero"; 
+    }
   }
   print "\n";
 }
