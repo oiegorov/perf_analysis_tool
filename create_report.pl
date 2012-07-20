@@ -40,7 +40,8 @@ sub calculate_metric {
   };
   if ($@) {
     if($@ =~ /Illegal division by zero/) {
-      return "undefined";
+      #return "undefined";
+      return -1;
     } 
     else {
       die $@;
@@ -87,39 +88,53 @@ for my $report_name (keys %{$reports}) {
     }
   }
 
-  ## Sort selected functions depending on their rang in descending order
-  my @sorted = sort {$func_pattern_hash{$a}->{"rang"} <=>
-    $func_pattern_hash{$b}->{"rang"}} keys %func_pattern_hash;
+  ## Sort selected functions according to the sorting parameter
+  my $sort_param = $extract_desc->{"sort"}[0];
 
+  my $metric_formulas = decode_json_file("json/metrics.json");
+  my $sort_param_is_metric = "false";
+
+  ## If sorting parameter is a metric 
+  if (exists $metric_formulas->{$sort_param}) {
+
+    ## Calculate metric for all the selected functions
+    $sort_param_is_metric = "true";
+    for my $func_name (keys %func_pattern_hash) {
+      $func_pattern_hash{$func_name}->{$sort_param} =
+        calculate_metric($metric_formulas->{$sort_param}, $func_pattern_hash{$func_name});
+    }
+  }
+  ## If sorting parameter is an event
+  else {
+
+  }
+
+  my @sorted = reverse sort {$func_pattern_hash{$a}->{$sort_param} <=>
+    $func_pattern_hash{$b}->{$sort_param}} keys %func_pattern_hash;
+  
   ## Contains {"event"->"sum"} for chosen events of all selected functions
   my %partial_event_sum;
 
   for (my $i = 0; $i < $top_n; $i++) {
-    my $func_name = $sorted[$i];
-    printf "%-4s", $i+1;
-    printf "%-45s", "$func_name";
-    for my $event (@events) {
-
-      my $metric_formulas = decode_json_file("json/metrics.json");
-      ## If specified event is actually a metric
-      if (exists $metric_formulas->{$event}) {
-        ## Calculate its value
-        my $val = calculate_metric($metric_formulas->{$event}, $func_pattern_hash{$func_name});
-        if ($val ne "undefined") {
-          printf "%-30.3f", $val;
+    if (exists $sorted[$i]) {
+      my $func_name = $sorted[$i];
+      printf "%-4s", $i+1;
+      printf "%-45s", "$func_name";
+      for my $event (@events) {
+        if ( exists $metric_formulas->{$event} ) {
+          if (! (exists  $func_pattern_hash{$func_name}->{$event}) ) {
+            my $val = calculate_metric($metric_formulas->{$event}, $func_pattern_hash{$func_name});
+            $func_pattern_hash{$func_name}->{$event} = $val;
+          }
+          printf "%-30.5f", "$func_pattern_hash{$func_name}->{$event}";
         }
         else {
-          printf "%-30s", $val;
+          $partial_event_sum{$event} += $func_pattern_hash{$func_name}->{$event};
+          printf "%-30.0f", "$func_pattern_hash{$func_name}->{$event}";
         }
       }
-        
-      else {
-        printf "%-30s", "$func_pattern_hash{$func_name}->{$event}";
-        $partial_event_sum{$event} += $func_pattern_hash{$func_name}->{$event};
-      }
+      print "\n";
     }
-    
-    print "\n";
   }
 
   print "\n";
