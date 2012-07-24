@@ -6,6 +6,7 @@ use 5.0100;
 
 use ManipulateJSON "decode_json_file";
 use ParseAmplReport qw(parse_ampl_report);
+use ParsePerfReport qw(parse_perf_report);
 
 ## Parse metric and calculate its value
 sub calculate_metric {
@@ -55,7 +56,7 @@ my $views = decode_json_file("json/views.json");
 my $extract_desc = decode_json_file("json/extract_desc.json");
 
 # for each type of the report, call the corresponding script to generate
-my $reports = parse_ampl_report($views, $extract_desc);
+my $reports = parse_perf_report($views, $extract_desc);
 
 my $top_n = shift @{$extract_desc->{"func_num"}};
 my @events = @{$extract_desc->{"events"}};
@@ -104,9 +105,11 @@ for my $report_name (keys %{$reports}) {
         calculate_metric($metric_formulas->{$sort_param}, $func_pattern_hash{$func_name});
     }
   }
-  ## If sorting parameter is an event
-  else {
 
+  for my $func_name (keys %func_pattern_hash) {
+    if (!exists $func_pattern_hash{$func_name}->{$sort_param}) {
+      delete $func_pattern_hash{$func_name};
+    }
   }
 
   my @sorted = reverse sort {$func_pattern_hash{$a}->{$sort_param} <=>
@@ -129,6 +132,9 @@ for my $report_name (keys %{$reports}) {
           printf "%-30.5f", "$func_pattern_hash{$func_name}->{$event}";
         }
         else {
+          if (!exists $func_pattern_hash{$func_name}->{$event}) {
+            $func_pattern_hash{$func_name}->{$event} = 0;
+          }
           $partial_event_sum{$event} += $func_pattern_hash{$func_name}->{$event};
           printf "%-30.0f", "$func_pattern_hash{$func_name}->{$event}";
         }

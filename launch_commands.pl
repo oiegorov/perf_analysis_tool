@@ -21,11 +21,13 @@ my $profiler_cmd = "";
 for my $path (keys %{$experims}) {
 
   for my $params (keys %{$experims->{$path}}) {
+    next if (!exists $conf->{$params});
     if ($conf->{$params}{"target"} eq "eldo") { 
       $eldo_cmd = $eldo_cmd . $conf->{$params}{"command"} . " " . join(" ",
         @{$experims->{$path}{$params}}) . " ";
     }
     elsif ($conf->{$params}{"target"} eq "profiler") { 
+      ## Special case for VTune's event-config=.. option
       if ( $conf->{$params}{"command"} =~ /=$/ ) {
         $profiler_cmd = $profiler_cmd . $conf->{$params}{"command"} . 
         join(",", @{$experims->{$path}{$params}}) . " ";
@@ -43,8 +45,8 @@ for my $path (keys %{$experims}) {
   ## Execute constructed command
   my $output;
   $output = capture("$profiler_exe $profiler_cmd $eldo_exe $eldo_cmd");
-  my $logname = $path;
-  $logname =~ s/\//:/g;
+  #my $logname = $path;
+  #$logname =~ s/\//:/g;
   open(FH, ">".$experims->{$path}{"profiler_outpath"}[0]."log") || die "I Cannot open file: $!\n" ;
   print FH $output;
   close(FH);

@@ -34,7 +34,8 @@ sub create_path_save_experim_data {
   mkpath($full_path);
 
   my %temp_hash = (%{$non_common_experim_hash}, %{$common_experim_hash},
-                    %{{"profiler_outpath" => [$full_path]}} );
+                    %{{"profiler_outpath" => [$full_path]}},
+                    %{{"profiler_outfile" => [$full_path."perf.data"]}} );
   $hash_to_json->{"$path"} = \%temp_hash;
 }
 
@@ -58,7 +59,7 @@ if (exists $experim_desc->{"events"}) {
   @{$experim_desc->{"events"}} = parse_events($experim_desc->{"events"});
 }
 
-## Sort out parameters ans their values depending on "level" property
+## Sort out parameters and their values depending on "level" property
 for my $param (keys %{$experim_desc}) {
 
   ## "repeat_num" must be treated differently. No such entry in conf.json
