@@ -1,0 +1,5 @@
+{
+  "CPU_CLK_UNHALTED.THREAD": "cycles",
+  "INST_RETIRED.ANY": "instructions",
+  "MEM_LOAD_RETIRED.LLC_MISS": "LLC-load-misses"
+}

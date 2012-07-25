@@ -4,7 +4,7 @@ use JSON;
 use Data::Dumper;
 use 5.0100;
 
-use ManipulateJSON "decode_json_file";
+use ManipulateJSON  qw(decode_json_file convert_events);
 use ParseAmplReport qw(parse_ampl_report);
 use ParsePerfReport qw(parse_perf_report);
 
@@ -28,10 +28,22 @@ sub calculate_metric {
   ## Sorting is needed to make $sub work properly
   my @event_names = sort ( $formula =~ m/[^0-9\/\+\*\-]+/g );
 
+
   ## Create an array of event values in corresponding order
   my @event_vals;
+
   for (@event_names) {
-      push @event_vals, $func_values->{$_}; 
+    my $event = $_;
+    ## Convert VTune event to get Perf's event value
+    $event = convert_events($event); 
+    my $event_func_val = $func_values->{$event};
+    ## If an event is undef for some function -- it has a 0 value
+    if (defined $func_values->{$event}) {
+      push @event_vals, $func_values->{$event};
+    }
+    else {
+      push @event_vals, 0;
+    }
   }
 
   ## Substitute hw event values into formula and get the result
@@ -54,9 +66,18 @@ sub calculate_metric {
 
 my $views = decode_json_file("json/views.json");
 my $extract_desc = decode_json_file("json/extract_desc.json");
+my $conf = decode_json_file("json/conf.json");
 
 # for each type of the report, call the corresponding script to generate
-my $reports = parse_perf_report($views, $extract_desc);
+my $reports;
+if ($conf->{"profiler_cmd"} =~ m/^perf/) {
+  $reports = parse_perf_report($views, $extract_desc);
+}
+else {
+  $reports = parse_ampl_report($views, $extract_desc);
+}
+
+print "yaaaaa\n";
 
 my $top_n = shift @{$extract_desc->{"func_num"}};
 my @events = @{$extract_desc->{"events"}};
@@ -100,10 +121,16 @@ for my $report_name (keys %{$reports}) {
 
     ## Calculate metric for all the selected functions
     $sort_param_is_metric = "true";
+
+
     for my $func_name (keys %func_pattern_hash) {
       $func_pattern_hash{$func_name}->{$sort_param} =
         calculate_metric($metric_formulas->{$sort_param}, $func_pattern_hash{$func_name});
     }
+  }
+
+  if ($sort_param_is_metric eq "false") {
+    $sort_param = convert_events($sort_param);
   }
 
   for my $func_name (keys %func_pattern_hash) {
@@ -132,11 +159,13 @@ for my $report_name (keys %{$reports}) {
           printf "%-30.5f", "$func_pattern_hash{$func_name}->{$event}";
         }
         else {
-          if (!exists $func_pattern_hash{$func_name}->{$event}) {
-            $func_pattern_hash{$func_name}->{$event} = 0;
+          my $converted_event = convert_events($event);
+          if ( (!exists $func_pattern_hash{$func_name}->{$converted_event}) 
+              or (!defined $func_pattern_hash{$func_name}->{$converted_event})) {
+            $func_pattern_hash{$func_name}->{$converted_event} = 0;
           }
-          $partial_event_sum{$event} += $func_pattern_hash{$func_name}->{$event};
-          printf "%-30.0f", "$func_pattern_hash{$func_name}->{$event}";
+          $partial_event_sum{$converted_event} += $func_pattern_hash{$func_name}->{$converted_event};
+          printf "%-30.0f", "$func_pattern_hash{$func_name}->{$converted_event}";
         }
       }
       print "\n";

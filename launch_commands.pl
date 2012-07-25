@@ -44,7 +44,7 @@ for my $path (keys %{$experims}) {
 
   ## Execute constructed command
   my $output;
-  $output = capture("$profiler_exe $profiler_cmd $eldo_exe $eldo_cmd");
+  $output = capture("$profiler_exe $profiler_cmd $eldo_exe $eldo_cmd 2> some.err");
   #my $logname = $path;
   #$logname =~ s/\//:/g;
   open(FH, ">".$experims->{$path}{"profiler_outpath"}[0]."log") || die "I Cannot open file: $!\n" ;

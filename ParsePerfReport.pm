@@ -95,22 +95,7 @@ sub parse_hwevents {
 sub parse_perf_report {
   my ($views, $extract_desc) = @_;
 
-  #here we assume only one report type is specified
-  ## No report type for Perf!
-  #my $report_type = shift @{$extract_desc->{"report"}};
-
-  #switch ($report_type) {
-  #  case 'hw-events' {
-      return parse_hwevents($views);
-      #  }
-      # case 'sfdump' {
-
-      # }
-      # else {
-
-      #  }
-      #}
-  
+  return parse_hwevents($views);
 }
 
 1;

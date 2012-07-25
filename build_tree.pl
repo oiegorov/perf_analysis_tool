@@ -5,7 +5,7 @@ use JSON;
 use Data::Dumper;
 use File::Path "mkpath";
 
-use ManipulateJSON "decode_json_file";
+use ManipulateJSON qw(decode_json_file convert_events);
 
 ## Parse metrics form "events" array
 sub parse_events {
@@ -13,17 +13,25 @@ sub parse_events {
   my $metrics_file = decode_json_file("json/metrics.json");
 
   my @hw_events = @{$_[0]};
-  for my $events (@{$_[0]}) {
+  my @new_hw_events;
+
+  for my $events (@hw_events) {
     if (exists $metrics_file->{$events}) {
       ## Delete the metric from events array ------------
-      my $index = first_index {$_ eq $events} @hw_events;
-      splice @hw_events, $index, 1;
+      #my $index = first_index {$_ eq $events} @hw_events;
+      #splice @hw_events, $index, 1;
       ## ------------------------------------------------
-      push @hw_events, ( $metrics_file->{$events} =~ m/[^0-9\/\+\*\-]+/g );
+      push @new_hw_events, ( $metrics_file->{$events} =~ m/[^0-9\/\+\*\-]+/g );
+    }
+    else {
+      push @new_hw_events, $events;
     }
   }
 
-  return @hw_events = uniq(@hw_events);
+  @new_hw_events = uniq(@new_hw_events);
+  @new_hw_events = @{convert_events(\@new_hw_events)};
+
+  return @new_hw_events;
 }
 
 sub create_path_save_experim_data {
