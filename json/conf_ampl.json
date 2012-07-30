@@ -1,5 +1,4 @@
 {
-  "main_path": "/home/oiegorov/experim_tool/",
   "eldo_cmd": "/home/oiegorov/eldo_wa/eldo/aol-dbg_opt/eldo_src/eldo_vtune_64.exe -prof_start 0",
   "profiler_cmd": "/opt/intel/vtune_amplifier_xe/bin64/amplxe-cl",
   "circuit": 

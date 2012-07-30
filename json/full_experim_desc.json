@@ -1,138 +1,23 @@
 {
-   "test_PLLrevF_sstPLLsch0-tran/1/try_2/" : {
+   "test_PLLrevF_sstPLLsch0-tran/4/" : {
+      "profiler_outfile" : [
+         "/home/oiegorov/experim_tool/test_PLLrevF_sstPLLsch0-tran/4/perf.data"
+      ],
       "circuit" : [
          "/home/oiegorov/eldo_examples/bad/test_PLL_modified/test_PLLrevF_sstPLLsch0-tran.cir"
       ],
-      "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/test_PLLrevF_sstPLLsch0-tran/1/try_2/"
+      "events" : [
+         "cycles",
+         "instructions"
       ],
       "eldo_outpath" : [
-         "/tmp/"
-      ],
-      "num_cores" : [
-         "1"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
-      ]
-   },
-   "ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/1/try_2/" : {
-      "circuit" : [
-         "/home/oiegorov/eldo_examples/bad/ONSEMI-Phoenix_modified/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.cir"
+         "/home/oiegorov/experim_tool/test_PLLrevF_sstPLLsch0-tran/4/eldo_output/"
       ],
       "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/1/try_2/"
-      ],
-      "eldo_outpath" : [
-         "/tmp/"
-      ],
-      "num_cores" : [
-         "1"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
-      ]
-   },
-   "test_PLLrevF_sstPLLsch0-tran/4/try_1/" : {
-      "circuit" : [
-         "/home/oiegorov/eldo_examples/bad/test_PLL_modified/test_PLLrevF_sstPLLsch0-tran.cir"
-      ],
-      "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/test_PLLrevF_sstPLLsch0-tran/4/try_1/"
-      ],
-      "eldo_outpath" : [
-         "/tmp/"
+         "/home/oiegorov/experim_tool/test_PLLrevF_sstPLLsch0-tran/4/"
       ],
       "num_cores" : [
          "4"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
-      ]
-   },
-   "ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/1/try_1/" : {
-      "circuit" : [
-         "/home/oiegorov/eldo_examples/bad/ONSEMI-Phoenix_modified/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.cir"
-      ],
-      "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/1/try_1/"
-      ],
-      "eldo_outpath" : [
-         "/tmp/"
-      ],
-      "num_cores" : [
-         "1"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
-      ]
-   },
-   "ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/4/try_1/" : {
-      "circuit" : [
-         "/home/oiegorov/eldo_examples/bad/ONSEMI-Phoenix_modified/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.cir"
-      ],
-      "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/4/try_1/"
-      ],
-      "eldo_outpath" : [
-         "/tmp/"
-      ],
-      "num_cores" : [
-         "4"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
-      ]
-   },
-   "test_PLLrevF_sstPLLsch0-tran/4/try_2/" : {
-      "circuit" : [
-         "/home/oiegorov/eldo_examples/bad/test_PLL_modified/test_PLLrevF_sstPLLsch0-tran.cir"
-      ],
-      "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/test_PLLrevF_sstPLLsch0-tran/4/try_2/"
-      ],
-      "eldo_outpath" : [
-         "/tmp/"
-      ],
-      "num_cores" : [
-         "4"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
-      ]
-   },
-   "test_PLLrevF_sstPLLsch0-tran/1/try_1/" : {
-      "circuit" : [
-         "/home/oiegorov/eldo_examples/bad/test_PLL_modified/test_PLLrevF_sstPLLsch0-tran.cir"
-      ],
-      "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/test_PLLrevF_sstPLLsch0-tran/1/try_1/"
-      ],
-      "eldo_outpath" : [
-         "/tmp/"
-      ],
-      "num_cores" : [
-         "1"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
-      ]
-   },
-   "ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/4/try_2/" : {
-      "circuit" : [
-         "/home/oiegorov/eldo_examples/bad/ONSEMI-Phoenix_modified/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop.cir"
-      ],
-      "profiler_outpath" : [
-         "/home/oiegorov/experim_tool/ONSEMI-Phoenix-Testcase11-onc50-test_NCS1003_voltageloop/4/try_2/"
-      ],
-      "eldo_outpath" : [
-         "/tmp/"
-      ],
-      "num_cores" : [
-         "4"
-      ],
-      "analysis" : [
-         "nehalem-general-exploration"
       ]
    }
 }
