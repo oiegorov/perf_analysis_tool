@@ -15,9 +15,8 @@ files in the bottom of this document.
 
 The first thing to do is to specify the following files:
 
-----------------------------------------------------------------------
 1. experim_desc.json
-----------------------------------------------------------------------
+
 Contains the parameters of the experiments to launch. 
 
 The required parameters are:
@@ -41,9 +40,8 @@ The additional parameters are:
 experiment is launched only once.
 
 
-----------------------------------------------------------------------
 2. conf.json
-----------------------------------------------------------------------
+
 Contains all the general experiment configurations.
 
 The required:
@@ -52,11 +50,13 @@ The required:
 * ("profiler_cmd") path to profiler executable.
 * configuration for each parameter from "experim_desc.json" file as well
 as optional eldo/profiler parameters. Each parameter includes the following fields:
--- "target": either "eldo" or "profiler".
--- "command": Which option should be included in the eldo/profiler
+** "target": either "eldo" or "profiler".
+** "command": Which option should be included in the eldo/profiler
 command to use the parameter?
--- "level": "true" if a new experiment should be run for each
+** "level": "true" if a new experiment should be run for each
 parameter''s value. Otherwise, "false".
+
+
 The user should also specify a command to add an output path for
 VTune Amplifier ("profiler_outpath") or an output file for Perf
 ("profiler_outfile").
