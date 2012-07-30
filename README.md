@@ -16,6 +16,7 @@ files in the bottom of this document.
 The first thing to do is to specify the following files:
 
 1. experim_desc.json
+---------------------------------------------------------
 
 Contains the parameters of the experiments to launch. 
 
@@ -41,6 +42,7 @@ experiment is launched only once.
 
 
 2. conf.json
+---------------------------------------------------------
 
 Contains all the general experiment configurations.
 
@@ -50,18 +52,19 @@ The required:
 * ("profiler_cmd") path to profiler executable.
 * configuration for each parameter from "experim_desc.json" file as well
 as optional eldo/profiler parameters. Each parameter includes the following fields:
-** "target": either "eldo" or "profiler".
-** "command": Which option should be included in the eldo/profiler
-command to use the parameter?
-** "level": "true" if a new experiment should be run for each
-parameter''s value. Otherwise, "false".
 
+++ "target": either "eldo" or "profiler".
+
+++ "command": Which option should be included in the eldo/profiler
+command to use the parameter?
+
+++ "level": "true" if a new experiment should be run for each
+parameter''s value. Otherwise, "false".
 
 The user should also specify a command to add an output path for
 VTune Amplifier ("profiler_outpath") or an output file for Perf
 ("profiler_outfile").
 
-----------------------------------------------------------------------
 3. metrics.json
 ----------------------------------------------------------------------
 Contains the formulas to compute performance metrics. Events should be
@@ -74,7 +77,6 @@ written in Intel format, e.g.
 ```
 
 
-----------------------------------------------------------------------
 4. events.json
 ----------------------------------------------------------------------
 Specifies the correspondence between Intel and Performance Counters for
@@ -86,7 +88,6 @@ Linux (PCL) event names, e.g:
 }
 ```
 
-----------------------------------------------------------------------
 5. experim_desc.json
 ----------------------------------------------------------------------
 Specifies the information we want to include in a particular performance
@@ -120,7 +121,6 @@ http://software.intel.com/sites/products/documentation/hpc/amplifierxe/en-us/201
 
 The tool consists of the following perl scripts:
 
-----------------------------------------------------------------------
 script prepare_experiments.pl
 ----------------------------------------------------------------------
 This script setups all the experiments to be conducted. Based on the
@@ -129,26 +129,22 @@ experim_desc.json, as well as parameter configurations from conf.json,
 the script creates descriptions for each experiment (written to
 full_experim_desc.json file) and a directory tree to store the results.
 
-----------------------------------------------------------------------
 script launch_commands.pl
 ----------------------------------------------------------------------
 Constructs and executes the commands taking as an input the descriptions of
 experiments created by prepare_experiments.pl script and configurations
 from conf.json file. The results of profiling are saved to the created
 by prepare_experiments.pl script directories.
-----------------------------------------------------------------------
 
 After all the experiments have been conducted, the next step lies
 in generating various information about obtained performance data.
 
-----------------------------------------------------------------------
 script extract_views.pl
 ----------------------------------------------------------------------
 Simply checks which views are specified in extract_desc.json file and
 leaves only those experiments that satisfy these views. Generated file
 views.json contains a subset of functions from full_experim_desc.json.
 
-----------------------------------------------------------------------
 script create_report.pl
 ----------------------------------------------------------------------
 Generates a report using specific to profiler .pm perl module. 
@@ -184,11 +180,11 @@ This way, the create_report.pl script outputs as well the relative % of
 events collected for displayed functions to the total number of events
 for all the functions.
 
-----------------------------------------------------------------------
                           USE CASES
-----------------------------------------------------------------------
+======================================================================
 
 1. Using Perf profiler
+----------------------------------------------------------------------
 
 We start with launching the first script prepare_experiments.pl without
 passing to it any arguments:
