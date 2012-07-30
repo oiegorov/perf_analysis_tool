@@ -66,10 +66,12 @@ VTune Amplifier ("profiler_outpath") or an output file for Perf
 ----------------------------------------------------------------------
 Contains the formulas to compute performance metrics. Events should be
 written in Intel format, e.g.
+`
 {
   "CPI": "CPU_CLK_UNHALTED.THREAD/INST_RETIRED.ANY",
   ...
 }
+`
 
 
 ----------------------------------------------------------------------
@@ -77,11 +79,12 @@ written in Intel format, e.g.
 ----------------------------------------------------------------------
 Specifies the correspondence between Intel and Performance Counters for
 Linux (PCL) event names, e.g:
+`
 {
   "CPU_CLK_UNHALTED.THREAD": "cycles",
   ...
 }
-
+`
 
 ----------------------------------------------------------------------
 5. experim_desc.json
@@ -156,6 +159,7 @@ by profilers (different profilers have different formats for result
 representation). The uniform representation is written in .json format
 as
 
+`
 "function1": {
   "event1": "value",
   "event2": "value",
@@ -165,13 +169,16 @@ as
   ..
   }
 ..
+`
 
 These perl modules also generate a total_event_count.json file with the
 total count of each event for all the selected functions in the form:
 
+`
 "event1": "total_value",
 "event2": "total_value"
 ..
+`
 
 This way, the create_report.pl script outputs as well the relative % of
 events collected for displayed functions to the total number of events
