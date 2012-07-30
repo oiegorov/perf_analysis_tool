@@ -1,11 +1,48 @@
+#!/usr/bin/perl
+
 use strict;
 use warnings;
 use local::lib;
 use JSON;
 use Data::Dumper;
 use File::Path "mkpath";
+use File::Copy "copy";
+use Cwd "getcwd";
+use POSIX "strftime";
 
 use ManipulateJSON qw(decode_json_file convert_events);
+
+## Define the experiment directory 
+##-------------------------------------------------------
+my $def_experim_dir = "experiment____".strftime("%H_%M_%S__%d_%m_%Y", localtime);
+## If not specified as an argument, create a unique experiment derictory in the
+## current directory
+my $main_path;
+if (! exists $ARGV[0]) {
+  $main_path = getcwd.'/'.$def_experim_dir;
+  mkpath($main_path);
+  print "No experiment directory is specified. The following directory was",
+    " automatically created: ", $main_path, "/\n";
+  copy(getcwd."/json/conf.json", $main_path."/conf.json") or die "Copy failed: $!";
+  copy(getcwd."/json/experim_desc.json", $main_path."/experim_desc.json") or die "Copy failed: $!";
+  copy(getcwd."/json/extract_desc.json", $main_path."/extract_desc.json") or die "Copy failed: $!";
+  copy(getcwd."/json/metrics.json", $main_path."/metrics.json") or die "Copy failed: $!";
+  copy(getcwd."/json/events.json", $main_path."/events.json") or die "Copy failed: $!";
+  print "Sample configurations files were copied to ", $main_path, "/\n\n";
+  print "Please modify the configuration files and run this script again", 
+    " specifying the newly created experiment directory:\n";
+  print "./prepare_experiments.pl $main_path \n\n";
+  exit;
+}
+else {
+  $main_path = shift @ARGV;
+}
+
+if (! (-d $main_path) ) {
+  print "The specified directory does not exist!\n";
+  exit;
+}
+##-------------------------------------------------------
 
 ## "events" field from experiment description file can include both specific
 ## event names and metric names; profiler can record only specific events:
@@ -29,7 +66,7 @@ sub parse_events {
   @new_hw_events = uniq(@new_hw_events);
 
   ## Specific event names should be converted if Perf is used
-  @new_hw_events = @{convert_events(\@new_hw_events)};
+  @new_hw_events = @{convert_events($main_path, \@new_hw_events)};
 
   return @new_hw_events;
 }
@@ -39,7 +76,7 @@ sub parse_events {
 sub create_path_save_experim_data {
   my ($srcpath, $path, $non_common_parameters, $common_parameters, $hash_to_json) = @_;
 
-  my $full_path = "$srcpath"."$path";
+  my $full_path = "$srcpath"."/"."$path";
   ## Create a directory path
   mkpath($full_path);
 
@@ -47,13 +84,24 @@ sub create_path_save_experim_data {
   my %temp_hash = (%{$non_common_parameters}, %{$common_parameters},
                     %{{"profiler_outpath" => [$full_path]}},
                     %{{"profiler_outfile" => [$full_path."perf.data"]}} );
+
+                  ## Here!!!
+  ## If a path to save eldo results was not specified
+  if (!exists $temp_hash{"eldo_outpath"}) {
+    my $outpath = $temp_hash{"profiler_outpath"}[0]."eldo_output/";
+    mkpath($outpath);
+    $temp_hash{"eldo_outpath"} = [$outpath];
+  }
+
+
+
   $hash_to_json->{"$path"} = \%temp_hash;
 }
 
 ## Read specification files
 ##-------------------------------------------------------
-my $conf = decode_json_file("json/conf.json");
-my $experim_desc = decode_json_file("json/experim_desc.json");
+my $conf = decode_json_file("${main_path}/conf.json");
+my $experim_desc = decode_json_file("${main_path}/experim_desc.json");
 ##-------------------------------------------------------
 
 ## parameters that have different values for each experiment ('level'==true)
@@ -66,6 +114,7 @@ my %common_parameters;
 if (exists $experim_desc->{"events"}) {
   @{$experim_desc->{"events"}} = parse_events($experim_desc->{"events"});
 }
+
 
 ## Sort out experiment parameters depending on their "level" property
 for my $param (keys %{$experim_desc}) {
@@ -100,18 +149,7 @@ my $glob = join (',', map ('{'.join(',', @$_).'}', @non_common_parameters));
 
 my @non_common_param_vals;
 
-## Define the directory ($srcpath) to save experiment results
-my $srcpath; 
-if (exists $conf->{"main_path"}) {
-  $srcpath = $conf->{"main_path"};
-  ## To check that path ends by '/'
-  $srcpath .= "/" if ( !($srcpath =~ /\/$/) );
-}
-else {
-  $srcpath = "/tmp/";
-}
-
-## Path to the experiment result data
+## Path to the specific experiment result data
 my $path;
 
 ## The final hash of experiments' configurations to be saved to json file
@@ -155,14 +193,14 @@ while (my $s = glob($glob)) {
       my $old_path = $path;
       $path=$path."try_$try/";
 
-      create_path_save_experim_data($srcpath, $path, \%non_common_parameters,
+      create_path_save_experim_data($main_path, $path, \%non_common_parameters,
         \%common_parameters, \%hash_to_json);
       
       $path = $old_path;
     }
   }
   else {    # just one try is needed for each experiment
-    create_path_save_experim_data($srcpath, $path, \%non_common_parameters,
+    create_path_save_experim_data($main_path, $path, \%non_common_parameters,
       \%common_parameters, \%hash_to_json);
   }
 
@@ -171,6 +209,6 @@ while (my $s = glob($glob)) {
 }
 
 ## Save the experiments description hash into file
-open(FH, ">json/full_experim_desc.json") || die "Cannot open file: $!\n" ;
+open(FH, ">${main_path}/full_experim_desc.json") || die "Cannot open file: $!\n" ;
 print FH to_json(\%hash_to_json, {pretty => 1});
 close(FH);

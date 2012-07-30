@@ -14,9 +14,9 @@ our @EXPORT = qw(parse_perf_report);
 sub parse_hwevents {
 
   my $views = $_[0];
+  my $main_path = $_[1];
 
   my %parsed_reports;
-  #my @event_count_files;
 
   for my $view_path (keys %{$views}) {
     my $result_folder = shift @{$views->{$view_path}{"profiler_outpath"}}; 
@@ -27,7 +27,7 @@ sub parse_hwevents {
 
     ## Do not generate a perf report if it already exists
     if (! -e $parsed_report_name) {  
-      my $confs = decode_json_file("json/conf.json");
+      my $confs = decode_json_file("${main_path}/conf.json");
       my $comm = "perf report -n -t , -i $perf_report > \\
           $output_perf_report 2> $result_folder/perf_err.log";
       my @output = capture($comm);
@@ -73,10 +73,6 @@ sub parse_hwevents {
         }
       }
 
-      #print Dumper $result_hash{"bsim4_calc_mos"};
-      #print Dumper %result_hash;
-      #print Dumper %total_event_count;
-
       open(FH, ">$parsed_report_name") || die "Cannot open file: $!\n" ;
       print FH to_json(\%result_hash, {pretty => 1});
       close(FH);
@@ -93,9 +89,9 @@ sub parse_hwevents {
 }
 
 sub parse_perf_report {
-  my ($views, $extract_desc) = @_;
+  my ($views, $extract_desc, $main_path) = @_;
 
-  return parse_hwevents($views);
+  return parse_hwevents($views, $main_path);
 }
 
 1;

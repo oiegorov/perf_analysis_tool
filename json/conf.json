@@ -1,7 +1,6 @@
 {
-  "main_path": "/home/oiegorov/experim_tool/",
-  "eldo_cmd": "/home/oiegorov/eldo_wa/eldo/aol-dbg_opt/eldo_src/eldo_vtune_64.exe -prof_start 0",
-  "profiler_cmd": "/opt/intel/vtune_amplifier_xe/bin64/amplxe-cl",
+  "eldo_cmd": "/home/oiegorov/eldo_wa/eldo/aol-dbg_opt/eldo_src/eldo_vtune_64.exe",
+  "profiler_cmd": "perf record",
   "circuit": 
   {
     "target": "eldo",
@@ -17,19 +16,7 @@
   "events":
   {
     "target": "profiler",
-    "command": "-collect-with runsa -knob event-config=",
-    "level": "false"
-  },
-  "allow_multiple_runs":
-  {
-    "target": "profiler",
-    "command": "allow-multiple-runs",
-    "level": "false"
-  },
-  "analysis":
-  {
-    "target": "profiler",
-    "command": "-collect",
+    "command": "-e",
     "level": "false"
   },
   "eldo_outpath":
@@ -38,10 +25,10 @@
     "command": "-outpath",
     "level": "false"
   },
-  "profiler_outpath":
+  "profiler_outfile":
   {
     "target": "profiler",
-    "command": "-result-dir",
+    "command": "-o",
     "level": "false"
   }
 }

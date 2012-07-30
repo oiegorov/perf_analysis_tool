@@ -14,21 +14,21 @@ our @EXPORT = qw(parse_ampl_report);
 sub parse_hwevents {
 
   my $views = $_[0];
+  my $main_path = $_[1];
 
   my %parsed_reports;
-  #my @event_count_files;
 
   for my $view_path (keys %{$views}) {
+
     my $result_folder = shift @{$views->{$view_path}{"profiler_outpath"}}; 
     my $ampl_report = $result_folder."ampl_report_hwevents.csv";
     my $parsed_report_name = "$result_folder"."parsed_report_hwevents.json";
-
     my $total_event_count_file = "$result_folder"."total_event_count.json";
-    #push @event_count_files, $total_event_count_file;
 
     ## Do not generate an amplifier report if it already exists
     if (! -e $parsed_report_name) {  
-      my $confs = decode_json_file("json/conf.json");
+      my $confs = decode_json_file("${main_path}/conf.json");
+      ## Generate an Amplifier report in .csv format
       my @output = capture("$confs->{'profiler_cmd'}"." -report hw-events -result-dir $result_folder -report-output=$ampl_report -format=csv -csv-delimiter=comma");
 
       open(FH, "$ampl_report")  || die "I Cannot open file: $!\n" ;
@@ -49,7 +49,6 @@ sub parse_hwevents {
           push @hw_events, $hw_event_name;
         }
       }
-
 
       my %result_hash;
       my %total_event_count;
@@ -74,7 +73,6 @@ sub parse_hwevents {
         $func_hash{"rang"} = $i;
         $func_hash{"module"} = $file_arr[$i]->[1];
 
-
         for (my $j = 2; $j < scalar(@{$file_arr[$i]}); $j++) {
           my $hw_event_index = $j - 2;
           $func_hash{"$hw_events[$hw_event_index]"} = $file_arr[$i]->[$j];
@@ -92,7 +90,6 @@ sub parse_hwevents {
       close(FH);
     }
 
-    #push(@parsed_reports, $parsed_report_name);
     $parsed_reports{$parsed_report_name} = $total_event_count_file;
   }
 
@@ -101,14 +98,14 @@ sub parse_hwevents {
 }
 
 sub parse_ampl_report {
-  my ($views, $extract_desc) = @_;
+  my ($views, $extract_desc, $main_path) = @_;
 
   #here we assume only one report type is specified
   my $report_type = shift @{$extract_desc->{"report"}};
 
   switch ($report_type) {
     case 'hw-events' {
-      return parse_hwevents($views);
+      return parse_hwevents($views, $main_path);
     }
     case 'sfdump' {
 

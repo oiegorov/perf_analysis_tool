@@ -18,12 +18,15 @@ sub decode_json_file {
 }
 
 sub convert_events {
+  my $main_path = $_[0];
+
   use List::MoreUtils qw(first_index);
-  my $conf = decode_json_file("json/conf.json");
-  my $hw_events = $_[0];
+  my $conf = decode_json_file("${main_path}/conf.json");
+  my $hw_events = $_[1];
+  ## Convert only if Perf is used. No conversion is needed for VTune
   if ($conf->{"profiler_cmd"} =~ m/^perf/) {
     ## Convert events to PCL form using events.json
-    my $events_file = decode_json_file("json/events.json");
+    my $events_file = decode_json_file("${main_path}/events.json");
 
     if ( UNIVERSAL::isa($hw_events,'ARRAY') ) {
       for my $vtune_event (keys %{$events_file}) {
@@ -32,7 +35,12 @@ sub convert_events {
       }
     }
     else {
-      $hw_events = $events_file->{$hw_events};
+      if (exists $events_file->{$hw_events}) {
+        $hw_events = $events_file->{$hw_events};
+      }
+      else {
+        return "-1";
+      }
     }
   }
   

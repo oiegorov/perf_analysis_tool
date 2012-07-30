@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 use strict;
 use warnings;
 use local::lib;
@@ -7,17 +9,26 @@ use IPC::System::Simple "capture";
 
 use ManipulateJSON "decode_json_file";
 
-# first, read full_experim json file
-# for each experiment configuration, construct an eldo command
+my $main_path;
+if (! exists $ARGV[0]) {
+  print "Please specify experiment directory.\n";
+  exit;
+}
+else {
+  $main_path = shift @ARGV;
+}
 
-my $experims = decode_json_file("json/full_experim_desc.json");
-my $conf = decode_json_file("json/conf.json");
+# first, read full_experim file that contains every experiment's description
+# then, for each experiment configuration, construct an eldo command
+my $experims = decode_json_file("${main_path}/full_experim_desc.json");
+my $conf = decode_json_file("${main_path}/conf.json");
 
 my $eldo_exe = $conf->{"eldo_cmd"};
 my $profiler_exe = $conf->{"profiler_cmd"};
 my $eldo_cmd = "";
 my $profiler_cmd = "";
 
+## For each experiment's configuration (distinguished by the saved path)
 for my $path (keys %{$experims}) {
 
   for my $params (keys %{$experims->{$path}}) {
@@ -27,7 +38,7 @@ for my $path (keys %{$experims}) {
         @{$experims->{$path}{$params}}) . " ";
     }
     elsif ($conf->{$params}{"target"} eq "profiler") { 
-      ## Special case for VTune's event-config=.. option
+      ## Special case for VTune's event-config=.. and Perf's events=.. option
       if ( $conf->{$params}{"command"} =~ /=$/ ) {
         $profiler_cmd = $profiler_cmd . $conf->{$params}{"command"} . 
         join(",", @{$experims->{$path}{$params}}) . " ";
@@ -43,11 +54,10 @@ for my $path (keys %{$experims}) {
     $eldo_cmd, "\n";
 
   ## Execute constructed command
-  my $output;
-  $output = capture("$profiler_exe $profiler_cmd $eldo_exe $eldo_cmd 2> some.err");
-  #my $logname = $path;
-  #$logname =~ s/\//:/g;
-  open(FH, ">".$experims->{$path}{"profiler_outpath"}[0]."log") || die "I Cannot open file: $!\n" ;
+  my $experim_path = $experims->{$path}{"profiler_outpath"}[0];
+  my $eldo_log = $experims->{$path}{"eldo_outpath"}[0]."log_execution";
+  my $output = capture("$profiler_exe $profiler_cmd $eldo_exe $eldo_cmd 2> ${experim_path}.errlog");
+  open(FH, ">".$eldo_log) || die "I cannot open file: $!\n" ;
   print FH $output;
   close(FH);
     
