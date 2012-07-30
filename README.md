@@ -25,7 +25,7 @@ The required parameters are:
 * ("num_cores") number of cores. 
 * ("eldo_outpath") directory to save eldo output.
 For VTune Amplifier:
-* ("analysis") analysis type. Each VTune's analysis type groups a
+* ("analysis") analysis type. Each VTune''s analysis type groups a
 predefined set of hardware performance events. The list of all
 available analysis types can be checked on
 http://software.intel.com/sites/products/documentation/hpc/amplifierxe/en-us/2011Update/lin/ug_docs/index.htm
@@ -56,7 +56,7 @@ as optional eldo/profiler parameters. Each parameter includes the following fiel
 -- "command": Which option should be included in the eldo/profiler
 command to use the parameter?
 -- "level": "true" if a new experiment should be run for each
-parameter's value. Otherwise, "false".
+parameter''s value. Otherwise, "false".
 The user should also specify a command to add an output path for
 VTune Amplifier ("profiler_outpath") or an output file for Perf
 ("profiler_outfile").
@@ -66,12 +66,12 @@ VTune Amplifier ("profiler_outpath") or an output file for Perf
 ----------------------------------------------------------------------
 Contains the formulas to compute performance metrics. Events should be
 written in Intel format, e.g.
-`
+```
 {
   "CPI": "CPU_CLK_UNHALTED.THREAD/INST_RETIRED.ANY",
   ...
 }
-`
+```
 
 
 ----------------------------------------------------------------------
@@ -79,12 +79,12 @@ written in Intel format, e.g.
 ----------------------------------------------------------------------
 Specifies the correspondence between Intel and Performance Counters for
 Linux (PCL) event names, e.g:
-`
+```
 {
   "CPU_CLK_UNHALTED.THREAD": "cycles",
   ...
 }
-`
+```
 
 ----------------------------------------------------------------------
 5. experim_desc.json
