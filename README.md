@@ -107,7 +107,7 @@ parameter's value.
 * ("events") function's event/metric values to write in the
 report.
 * ("same_experim") if "false" - include the results of only a single
-experiment's run. If 'true" - all the repetitive experiment execution
+experiment''s run. If "true" - all the repetitive experiment execution
 results will be included in the report.
 
 Required for Vtune Amplifier:
@@ -159,7 +159,7 @@ by profilers (different profilers have different formats for result
 representation). The uniform representation is written in .json format
 as
 
-`
+```
 "function1": {
   "event1": "value",
   "event2": "value",
@@ -169,16 +169,16 @@ as
   ..
   }
 ..
-`
+```
 
 These perl modules also generate a total_event_count.json file with the
 total count of each event for all the selected functions in the form:
 
-`
+```
 "event1": "total_value",
 "event2": "total_value"
 ..
-`
+```
 
 This way, the create_report.pl script outputs as well the relative % of
 events collected for displayed functions to the total number of events
@@ -192,6 +192,7 @@ for all the functions.
 
 We start with launching the first script prepare_experiments.pl without
 passing to it any arguments:
+```
 $ ./prepare_experiments.pl
 
 >No experiment directory is specified. The following directory was
@@ -203,6 +204,7 @@ $ ./prepare_experiments.pl
 >Please modify the configuration files and run this script again
 >specifying the newly created experiment directory:
 >./prepare_experiments.pl /home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012
+```
 
 As we can see, a new directory for our experiments was created and sample
 configurations files were copied to it. Before proceeding and running the
@@ -210,8 +212,9 @@ same script passing a created directory as an argument, we need to
 modify the configuration files in order to launch those tests that we
 want to, and not the default ones.
 
-At first, let's see what should be checked in conf.json file:
+At first, let''s see what should be checked in conf.json file:
 
+```
 {
   "eldo_cmd": "/home/oiegorov/eldo_wa/eldo/aol-dbg_opt/eldo_src/eldo_vtune_64.exe",
   "profiler_cmd": "perf record",
@@ -246,6 +249,7 @@ At first, let's see what should be checked in conf.json file:
     "level": "false"
   }
 }
+```
 
 Pay attention to the "profiler_cmd" field and the fields with the
 "target": "profiler", to use correct Perf options. "profiler_outfile"
@@ -254,6 +258,7 @@ and "events" fields are required for Perf.
 Next, we modify experim_desc.json file to specify the experiments we
 want to launch. For example:
 
+```
 {
   "circuit":
   [
@@ -264,6 +269,7 @@ want to launch. For example:
   "events": ["CPU_CLK_UNHALTED.THREAD", "INST_RETIRED.ANY", "CPI"],
   "repeat_num": [ "2" ]
 }
+```
 
 Such configuration tells that we want to test two circuits on 1 and 8 cores
 each, collect the number of cycles and instructions, as well as automatically
@@ -275,13 +281,16 @@ add some new events to events.json file.
 We now ready to execute prepare_experiments.pl and launch_commands.pl scripts,
 providing the name of experiment directory:
 
+```
 $ ./prepare_experiments /home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012/
 $ ./launch_commands.pl /home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012/
+```
 
 After all the tests are executed we normally would like to output some
 performance reports. To do this, we need to specify what exactly should
 appear in the report. This is specified in extract_desc.json file:
 
+```
 {
   "view":
   {
@@ -297,6 +306,7 @@ appear in the report. This is specified in extract_desc.json file:
   "sort": ["CPU_CLK_UNHALTED.THREAD"],
   "same_experim": ["false"]
 }
+```
 
 What is specified here is that we want to output the performance data only for
 one circuit, ran on 1 and 8 cores, "same_experim" says that the performance
@@ -307,8 +317,9 @@ We do not impose any restrictions on function names, as regex ".*" specifies.
 
 Here is a generated sample report:
 
-
+```
 ------------------------------------/home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012/test_PLLrevF_sstPLLsch0-tran/1/try_1/parsed_report_hwevents.json------------------------------------
+```
 
     Function                                     CPU_CLK_UNHALTED.THREAD       INST_RETIRED.ANY              CPI
     1   bsim4_calc_mos                               2271                          1172                          1.93771
@@ -329,8 +340,9 @@ Here is a generated sample report:
 
           Total %                                    44.802                        44.550
 
-
+```
 ------------------------------------/home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012/test_PLLrevF_sstPLLsch0-tran/4/try_1/parsed_report_hwevents.json------------------------------------
+```
 
     Function                                     CPU_CLK_UNHALTED.THREAD       INST_RETIRED.ANY              CPI
     1   bsim4_calc_mos                               7277                          5734                          1.26910
