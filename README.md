@@ -1,4 +1,4 @@
-This document explains the functionality of a tool.
+This document explains the functionality of the tool.
 
 The general logic of using the tool is:
 
