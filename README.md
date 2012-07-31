@@ -1,19 +1,22 @@
-This document explains the functionality of the tool.
+This document explains the functionality of the performance analysis
+automate tool.
 
 The general logic of using the tool is:
 
-Launch all the experiments that could be interesting to analyze.  This
+1) launch all the experiments that could be interesting to analyze.  This
 process is automated and requires only several concise specification
-files. After the performance results of all the experiments are obtained,
-show only specific information (e.g. only 20 functions with the biggest
-CPI ratio for 2 specific circuits ran on 4 cores). Such reports can be
+files. 
+2) after the performance results of all the experiments are obtained,
+show only selected information (e.g. only 20 functions with the biggest
+CPI ratio for 2 specific circuits ran on 4 cores). Such reports are
 generated using the performance data collected during the
 first step.
 
 See the Vtune Amplifier and Perf use cases and sample configuration
 files in the bottom of this document.
 
-The first thing to do is to specify the following files:
+The first thing to do is to write the following files and put them in
+the experiment''s directory:
 
 1. experim_desc.json
 ---------------------------------------------------------
@@ -24,11 +27,13 @@ The required parameters are:
 * ("circuit"). The full path(s) to the .cir file(s).
 * ("num_cores") number of cores. 
 * ("eldo_outpath") directory to save eldo output.
+
 For VTune Amplifier:
 * ("analysis") analysis type. Each VTune''s analysis type groups a
 predefined set of hardware performance events. The list of all
 available analysis types can be checked on
 http://software.intel.com/sites/products/documentation/hpc/amplifierxe/en-us/2011Update/lin/ug_docs/index.htm
+
 For Perf:
 * ("events") individual event names to capture with hardware perfomance counters. 
 Event names should be written in the Intel format. The mapping
@@ -36,7 +41,7 @@ of Perf events to Intel events is specified in events.json file. The
 list of hardware events available on specific Intel architecture can be
 checked on Intel website.
 
-The additional parameters are:
+The optional parameters are:
 * ("repeat_num") number of experiment repetitions. By default each
 experiment is launched only once.
 
@@ -47,18 +52,17 @@ experiment is launched only once.
 Contains all the general experiment configurations.
 
 The required:
-* ("main_path") directory to save experiment results in.
+* ("main_path") directory to save experiment results.
 * ("eldo_cmd") path to eldo executable.
 * ("profiler_cmd") path to profiler executable.
-* configuration for each parameter from "experim_desc.json" file as well
-as optional eldo/profiler parameters. Each parameter includes the following fields:
+* Each parameter from "experim_desc.json" file as well
+as optional eldo/profiler parameters must be speicifed using the
+following fields:
 
-++ "target": either "eldo" or "profiler".
-
-++ "command": Which option should be included in the eldo/profiler
+-- "target": either "eldo" or "profiler".
+-- "command": Which option should be included in the eldo/profiler
 command to use the parameter?
-
-++ "level": "true" if a new experiment should be run for each
+-- "level": "true" if a new experiment should be run for each
 parameter''s value. Otherwise, "false".
 
 The user should also specify a command to add an output path for
@@ -88,7 +92,7 @@ Linux (PCL) event names, e.g:
 }
 ```
 
-5. experim_desc.json
+5. extract_desc.json
 ----------------------------------------------------------------------
 Specifies the information we want to include in a particular performance
 report. 
@@ -104,8 +108,8 @@ specified regex.
 * ("sort") to sort the chosen functions based on the value of a
 specific performance event/metric.
 * ("func_num") include only N functions with the biggest sorting
-parameter's value.
-* ("events") function's event/metric values to write in the
+parameter''s value.
+* ("events") function''s event/metric values to write in the
 report.
 * ("same_experim") if "false" - include the results of only a single
 experiment''s run. If "true" - all the repetitive experiment execution
@@ -119,7 +123,8 @@ http://software.intel.com/sites/products/documentation/hpc/amplifierxe/en-us/201
 
 
 
-The tool consists of the following perl scripts:
+The performance analysis automate tool consists of the following perl
+scripts:
 
 script prepare_experiments.pl
 ----------------------------------------------------------------------
@@ -311,6 +316,12 @@ are CPU cycles, instructions and CPI metrics. The functions will be sorted by
 the number of cycles in descending order, with only first 15 of them displayed.
 We do not impose any restrictions on function names, as regex ".*" specifies.
 
+```
+./extract_views.pl /home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012/
+./create_report.pl /home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012/
+
+```
+
 Here is a generated sample report:
 
 ```
@@ -359,3 +370,158 @@ Here is a generated sample report:
 
           Total %                                    50.223                        46.487
 
+
+2. Using Vtune Amplifier profiler
+----------------------------------------------------------------------
+
+As in the first use case we run prepare_experiments.pl script without
+arguments and obtain the following experiment directory with sample
+configuration files:
+
+/home/oiegorov/experim_tool/experiment____15_00_22__30_07_2012
+
+The following are the contents of conf.json file for Vtune Amplifier
+profiler:
+
+```
+{
+  "eldo_cmd": "/home/oiegorov/eldo_wa/eldo/aol-dbg_opt/eldo_src/eldo_vtune_64.exe -prof_start 0",
+  "profiler_cmd": "/opt/intel/vtune_amplifier_xe/bin64/amplxe-cl",
+  "circuit": 
+  {
+    "target": "eldo",
+    "command": "",
+    "level": "true"
+  },
+  "num_cores":
+  {
+    "target": "eldo",
+    "command": "-use_proc",
+    "level": "true"
+  },
+  "analysis":
+  {
+    "target": "profiler",
+    "command": "-collect",
+    "level": "false"
+  },
+  "eldo_outpath":
+  {
+    "target": "eldo",
+    "command": "-outpath",
+    "level": "false"
+  },
+  "profiler_outpath":
+  {
+    "target": "profiler",
+    "command": "-result-dir",
+    "level": "false"
+  }
+}
+```
+
+Notice the required "analysis" and "profiler_outpath" parameters as well
+as the path to Amplifier''s executable as a value of "profiler_cmd"
+parameter.
+
+Next, experim_desc.json is written as the following:
+
+```
+{
+  "circuit":
+  [
+    "/home/oiegorov/eldo_examples/bad/test_PLL_modified/test_PLLrevF_sstPLLsch0-tran.cir"
+  ],
+  "num_cores": ["4"],
+  "analysis": ["nehalem-general-exploration"],
+  "repeat_num": [ "1" ]
+}
+```
+
+Here, we do not specify any specific events, but the type of analysis
+which itself contains a predefined set of hardware performance events.
+In this particular case we specified a single experiment to run.
+
+We then run the following scripts providing a full path to the
+experiment as an argument:
+
+```
+$ ./prepare_experiments /home/oiegorov/experim_tool/experiment____15_00_22__30_07_2012
+$ ./launch_commands.pl /home/oiegorov/experim_tool/experiment____15_00_22__30_07_2012
+```
+
+The extract_desc.json file is then written as:
+
+```
+{
+  "view":
+  {
+    "circuit":
+    [
+      "/home/oiegorov/eldo_examples/bad/test_PLL_modified/test_PLLrevF_sstPLLsch0-tran.cir"
+    ],
+    "num_cores": ["4"]
+  },
+  "report": ["hw-events"],
+  "events": ["CPU_CLK_UNHALTED.THREAD"],
+  "func_num": [ "15" ],
+  "func_pattern": ["^solve"],
+  "sort": ["CPU_CLK_UNHALTED.THREAD"],
+  "same_experim": ["false"]
+}
+```
+
+Notice that "report" paramater is required for Amplifier profiler. In
+this case the first 15 functions with the biggest number of consumed
+cycled with the name that starts with "solve" will be displayed.
+
+We run now 
+
+```
+./extract_views.pl ../experiments/experiment____15_00_22__30_07_2012/
+./create_report.pl ../experiments/experiment____15_00_22__30_07_2012/
+```
+
+As the result, the following report is generated:
+
+```
+------------------------------------../experiments/experiment____15_00_22__30_07_2012//test_PLLrevF_sstPLLsch0-tran/4/parsed_report_hwevents.json------------------------------------
+```
+
+    Function                                     CPU_CLK_UNHALTED.THREAD
+    1   solve2_000000000000375c                      4918000000
+    2   solve2_00000000000036bf                      4660000000
+    3   solve2_00000000000026f3                      836000000
+    4   solve2_000000000000255a                      692000000
+    5   solve2_00000000000020eb                      402000000
+    6   solve2_000000000000355f                      320000000
+    7   solve2_000000000000217c                      294000000
+    8   solve2_0000000000002120                      82000000
+    9   solve2_0000000000001fa2                      80000000
+    10  solve_loop                                   74000000
+    11  solve2_0000000000003780                      62000000
+    12  solve2_0000000000003145                      30000000
+    13  solve                                        26000000
+    14  solve_init_dep_stack                         10000000
+
+          Total %                                    8.402
+
+It must be noted that Perf displays the number of samples collected for
+each event, whereas Vtune Amplifier displays the total number of events = # of
+samples * # of events per sample (known as ''sample after value'').
+
+Vtune Amplifier uses different predefined SAV (Sample After Value) for
+different events. The more probable events (like cycles or retired
+instructions) need bigger SAV so that the interrupts to capture the
+function which generates the events do not occur too frequently and
+perturb normal program execution. At the same time, the events that do
+not occur so often, like L2 cache misses, need smaller SAV so that the
+precise information on function can be obtained.
+
+Perf automatically adjusts the SAV for events so that the default rate
+1000 samples/second is maintained. For example, if L2 cache
+miss event generates less than 1000 samples per second, Perf reduces the
+SAV for this event so that the default 1000 samples/second rate is
+maintained. There is a possibility to hardcode the SAV values for
+events, like it is done in Vtune Amplifier. This functionality is not
+yet added to this performance analysis tool.
