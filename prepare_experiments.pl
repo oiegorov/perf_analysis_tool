@@ -18,16 +18,22 @@ my $def_experim_dir = "experiment____".strftime("%H_%M_%S__%d_%m_%Y", localtime)
 ## If not specified as an argument, create a unique experiment derictory in the
 ## current directory
 my $main_path;
-if (! exists $ARGV[0]) {
-  $main_path = getcwd.'/'.$def_experim_dir;
+my $arg = $ARGV[0] if (exists $ARGV[0]);
+if (! (defined $arg)) {
+  print "Specify an argument please\n";
+  exit;
+}
+print Dumper $arg;
+if ( ($arg eq "perf") or ($arg eq "vtune") ) {
+  $main_path = getcwd.'/'.$def_experim_dir."_${arg}";
   mkpath($main_path);
   print "No experiment directory is specified. The following directory was",
     " automatically created: ", $main_path, "/\n";
-  copy(getcwd."/json/conf.json", $main_path."/conf.json") or die "Copy failed: $!";
-  copy(getcwd."/json/experim_desc.json", $main_path."/experim_desc.json") or die "Copy failed: $!";
-  copy(getcwd."/json/extract_desc.json", $main_path."/extract_desc.json") or die "Copy failed: $!";
-  copy(getcwd."/json/metrics.json", $main_path."/metrics.json") or die "Copy failed: $!";
-  copy(getcwd."/json/events.json", $main_path."/events.json") or die "Copy failed: $!";
+  copy(getcwd."/sample/conf_${arg}.json", $main_path."/conf.json") or die "Copy failed: $!";
+  copy(getcwd."/sample/experim_desc_${arg}.json", $main_path."/experim_desc.json") or die "Copy failed: $!";
+  copy(getcwd."/sample/extract_desc_${arg}.json", $main_path."/extract_desc.json") or die "Copy failed: $!";
+  copy(getcwd."/sample/metrics.json", $main_path."/metrics.json") or die "Copy failed: $!";
+  copy(getcwd."/sample/events.json", $main_path."/events.json") or die "Copy failed: $!";
   print "Sample configurations files were copied to ", $main_path, "/\n\n";
   print "Please modify the configuration files and run this script again", 
     " specifying the newly created experiment directory:\n";
@@ -35,7 +41,7 @@ if (! exists $ARGV[0]) {
   exit;
 }
 else {
-  $main_path = shift @ARGV;
+  $main_path = $arg;
 }
 
 if (! (-d $main_path) ) {
@@ -48,10 +54,13 @@ if (! (-d $main_path) ) {
 ## event names and metric names; profiler can record only specific events:
 ## each metric should be parsed to get the names of events it consists of.
 sub parse_events {
-  use List::MoreUtils qw(uniq first_index);
-  my $metrics_file = decode_json_file("json/metrics.json");
 
   my @hw_events = @{$_[0]};
+  my $main_path = $_[1];
+
+  use List::MoreUtils qw(uniq first_index);
+  my $metrics_file = decode_json_file("${main_path}/metrics.json");
+
   my @new_hw_events;
 
   for my $events (@hw_events) {
@@ -112,7 +121,7 @@ my %common_parameters;
 
 ## Parse metrics and convert event names (if necessary)
 if (exists $experim_desc->{"events"}) {
-  @{$experim_desc->{"events"}} = parse_events($experim_desc->{"events"});
+  @{$experim_desc->{"events"}} = parse_events($experim_desc->{"events"}, $main_path);
 }
 
 
@@ -150,7 +159,7 @@ my $glob = join (',', map ('{'.join(',', @$_).'}', @non_common_parameters));
 my @non_common_param_vals;
 
 ## Path to the specific experiment result data
-my $path;
+my $path = "";
 
 ## The final hash of experiments' configurations to be saved to json file
 my %hash_to_json;
@@ -174,7 +183,8 @@ while (my $s = glob($glob)) {
     if ($non_common_parameter_names[$i] eq "circuit") {
       $non_common_param_vals[$i] =~ s/.*\/([a-zA-Z0-9_-]*)\.cir/$1/;
     }
-    $path=$path."$non_common_param_vals[$i]/";
+    $path=$path."$non_common_parameter_names[$i]"."_"."$non_common_param_vals[$i]/";
+    #$path=$path."$non_common_param_vals[$i]/";
   }
   ##----------------------------------------------------------------------------
 

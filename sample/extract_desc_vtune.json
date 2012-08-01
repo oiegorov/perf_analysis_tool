@@ -1,0 +1,16 @@
+{
+  "view":
+  {
+    "circuit":
+    [
+      "/home/oiegorov/eldo_examples/bad/VSC1414_VCO_modified/VSC1414-VCO.cir"
+    ],
+    "num_cores": ["4"]
+  },
+  "report": ["hw-events"],
+  "events": ["CPU_CLK_UNHALTED.THREAD", "INST_RETIRED.ANY", "CPI"],
+  "func_num": [ "15" ],
+  "func_pattern": [".*"],
+  "sort": ["CPU_CLK_UNHALTED.THREAD"],
+  "same_experim": ["true"]
+}

@@ -525,3 +525,38 @@ SAV for this event so that the default 1000 samples/second rate is
 maintained. There is a possibility to hardcode the SAV values for
 events, like it is done in Vtune Amplifier. This functionality is not
 yet added to this performance analysis tool.
+
+--------------------------------------------------------------------
+Example of adding a new parameter to experiments
+--------------------------------------------------------------------
+Imagine now that we want to run experiments modifying the number of
+non-zero matrix elements that will define if eldo solvers should be
+used.
+
+For this, we need to add to netlist files (.cir) an option
+.option hm_eldo_schurs=N
+where N - the number of non-zero elements. Normally, we would
+incapsulate this call into #ifdef NAME #endif macros, and call eldo with
+-define NAME to enable a corresponding macro in .cir file.
+
+How do we tell performance analysis automate tool to allow this? Very
+easy. At first, we add a new parameter into conf.json file:
+
+```
+...
+"define":
+  {
+    "target": "eldo",
+    "command": "-define",
+    "level": "true"
+  }
+```
+
+telling that a new experiment should be run for each value of "define"
+in experim_desc.json file:
+
+```
+  "define": ["ELDO_SCHURS_10", "ELDO_SCHURS_1000000"]
+```
+
+that''s it.

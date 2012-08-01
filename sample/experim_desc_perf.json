@@ -1,0 +1,10 @@
+{
+  "circuit":
+  [
+      "/home/oiegorov/eldo_examples/good/sim64k/sim64k.cir"
+  ],
+  "num_cores": ["1"],
+  "events": ["CPU_CLK_UNHALTED.THREAD", "INST_RETIRED.ANY", "CPI"],
+  "eldo_outpath": ["/tmp/"],
+  "repeat_num": [ "2" ]
+}

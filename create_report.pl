@@ -97,10 +97,20 @@ my $func_pattern = $extract_desc->{"func_pattern"}[0];
 ## for each experiment - display the report
 for my $report_name (keys %{$reports}) {
   
+  ## Parse eldo log file and extract global elapsed time value
+  my $eldo_log = $report_name;
+  $eldo_log =~ s/(.*)\/[A-Za-z_.]+/$1\/eldo_output/;
+  open(FH, "${eldo_log}/log_execution") || die "Cannot open file: $!\n" ;
+  $eldo_log = do { local $/; <FH> };
+  close(FH);
+  $eldo_log =~ /.*GLOBAL\sELAPSED\sTIME\s(.*)<\*/;
+  my $elapsed_time = $1;
+
   print "\n";
-  print "------------------------------------";
+  print "------------------";
   print $report_name;
-  print "------------------------------------\n";
+  print "------------------\n";
+  print "ELAPSED TIME: ", $elapsed_time, "\n"; 
   print "\n";
   printf "%-4s", " ";
   printf "%-45s", "Function";
@@ -201,13 +211,14 @@ for my $report_name (keys %{$reports}) {
   for my $selected_event (@events_copy) {
     if (convert_events($main_path, $selected_event) ne "-1") {
       $selected_event = convert_events($main_path, $selected_event);
-      if ($total_event_count_file->{$selected_event} ne "0") {
+      if ((exists $total_event_count_file->{$selected_event}) and 
+           (exists $partial_event_sum{$selected_event}) ) {
         my $percent = $partial_event_sum{$selected_event} /
           $total_event_count_file->{$selected_event} * 100;
         printf "%-30.3f", $percent ;
       }
       else {
-        printf "%-30s", "illegal division by zero"; 
+        printf "%-30s", "0"; 
       }
     }
     else {
