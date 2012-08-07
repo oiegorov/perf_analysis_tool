@@ -16,14 +16,14 @@ use ManipulateJSON qw(decode_json_file convert_events);
 ##-------------------------------------------------------
 my $def_experim_dir = "experiment____".strftime("%H_%M_%S__%d_%m_%Y", localtime);
 ## If not specified as an argument, create a unique experiment derictory in the
-## current directory
+## current directory, copying perf's or vtune's sample conf files ("perf" or
+## "vtune" argument)
 my $main_path;
 my $arg = $ARGV[0] if (exists $ARGV[0]);
 if (! (defined $arg)) {
-  print "Specify an argument please\n";
+  print "Specify an argument please ('perf' or 'vtune')\n";
   exit;
 }
-print Dumper $arg;
 if ( ($arg eq "perf") or ($arg eq "vtune") ) {
   $main_path = getcwd.'/'.$def_experim_dir."_${arg}";
   mkpath($main_path);
@@ -94,7 +94,6 @@ sub create_path_save_experim_data {
                     %{{"profiler_outpath" => [$full_path]}},
                     %{{"profiler_outfile" => [$full_path."perf.data"]}} );
 
-                  ## Here!!!
   ## If a path to save eldo results was not specified
   if (!exists $temp_hash{"eldo_outpath"}) {
     my $outpath = $temp_hash{"profiler_outpath"}[0]."eldo_output/";

@@ -20,6 +20,16 @@ else {
 }
 
 
+sub convert_hw_event {
+  my $event = $_[0];
+  if ($event =~ m/^r([a-zA-Z0-9]){3,4}$/) {
+    $event =~ /r0*([a-zA-Z1-9]+)/;
+    $event = "0x".$1;
+  }
+
+  return $event;
+}
+
 ## Parse metric and calculate its value
 sub calculate_metric {
   my $formula = $_[0];
@@ -106,11 +116,15 @@ for my $report_name (keys %{$reports}) {
   $eldo_log =~ /.*GLOBAL\sELAPSED\sTIME\s(.*)<\*/;
   my $elapsed_time = $1;
 
+  my $parsed_report = decode_json_file("$report_name");
+  my $total_event_count_file = decode_json_file($reports->{$report_name});
+
   print "\n";
   print "------------------";
   print $report_name;
   print "------------------\n";
   print "ELAPSED TIME: ", $elapsed_time, "\n"; 
+  #print "Total cycles: ", $total_event_count_file->{"cycles"}, "\n"; 
   print "\n";
   printf "%-4s", " ";
   printf "%-45s", "Function";
@@ -120,8 +134,6 @@ for my $report_name (keys %{$reports}) {
   print "\n";
 
 
-  my $parsed_report = decode_json_file("$report_name");
-  my $total_event_count_file = decode_json_file($reports->{$report_name});
   
   my %func_pattern_hash;
 
@@ -131,6 +143,7 @@ for my $report_name (keys %{$reports}) {
       $func_pattern_hash{"$funcs"} = $parsed_report->{$funcs};
     }
   }
+
 
   my $sort_param = $extract_desc->{"sort"}[0];
 
@@ -152,6 +165,7 @@ for my $report_name (keys %{$reports}) {
   ## Need to convert sorting parameter if it is an event
   if ($sort_param_is_metric eq "false") {
     $sort_param = convert_events($main_path, $sort_param);
+    $sort_param = convert_hw_event($sort_param);
   }
 
   ## Get rid of functions that do not have a sorting parameter (i.e. it's value
@@ -188,6 +202,7 @@ for my $report_name (keys %{$reports}) {
         }
         else {
           my $converted_event = convert_events($main_path, $event);
+          $converted_event = convert_hw_event($converted_event);
           if ( (!exists $func_pattern_hash{$func_name}->{$converted_event}) 
               or (!defined $func_pattern_hash{$func_name}->{$converted_event})) {
             $func_pattern_hash{$func_name}->{$converted_event} = 0;
@@ -211,6 +226,7 @@ for my $report_name (keys %{$reports}) {
   for my $selected_event (@events_copy) {
     if (convert_events($main_path, $selected_event) ne "-1") {
       $selected_event = convert_events($main_path, $selected_event);
+      $selected_event = convert_hw_event($selected_event);
       if ((exists $total_event_count_file->{$selected_event}) and 
            (exists $partial_event_sum{$selected_event}) ) {
         my $percent = $partial_event_sum{$selected_event} /

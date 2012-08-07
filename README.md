@@ -560,3 +560,36 @@ in experim_desc.json file:
 ```
 
 that''s it.
+
+
+
+
+--------------------------------------------------------------------
+How to use native platform''s hardware performance events with Perf
+--------------------------------------------------------------------
+
+Normally, one can check the list of aliases for hardware performance
+events with
+  $ perf list
+
+There are situations when the needed event is not available in Perf''s
+predefined event list. In this case, the technique of direct encoding
+can be used. This way, the event in perf command is specified as rNNNN
+where NNNN is an encoding of the native hardware event. The four NNNN
+characters are obtained in the following way:
+
+1) find the target platform''s native event in Intel Architectures
+Software Developer Manual''s Volume 3B (Tables 19.1 -- 19.26):
+(http://www.intel.com/content/www/us/en/processors/architectures-software-developer-manuals.html/)
+
+2) first two NN are taken from Umask value (the last 'H' character is
+ignored)
+
+3) second two NN are taken from Event Number value (again, ignoring the
+'H' character)
+
+For example, for "CPU_CLK_UNHALTED.THREAD" event (number of executed
+cycles, also available as "cycles" in Perf list) we have Umask = '00H',
+Event Number = '3CH'. This way we write in Perf''s command:
+
+$perf stat -e r003c ./executable
