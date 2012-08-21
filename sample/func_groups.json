@@ -1,0 +1,10 @@
+{
+  "All": {
+    "DeviceModelEvaluation": {
+      "Mos": [ "^Gudm.*", "^bsim4.*" ],
+      "Capa": [ "^fss_.*"]
+    },
+    "LinearSystemSolve": [ "^srt.*" ]
+  }
+}
+

@@ -4,5 +4,5 @@
   "MEM_LOAD_RETIRED.L3_MISS": "LLC-load-misses",
   "L3_MISS": "cache-misses",
   "MEM_LOAD_RETIRED.L2_MISS": "r0224",
-  "L2_MISS": "cache-references",
+  "L2_MISS": "cache-references"
 }

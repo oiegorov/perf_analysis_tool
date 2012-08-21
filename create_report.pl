@@ -27,13 +27,22 @@ if (! exists $ARGV[1]) {
   exit;
 }
 elsif ($ARGV[1] eq "graph") {
-    build_gen_code_graph($main_path);
-  }
+  build_gen_code_graph($main_path);
+  exit;
+}
 elsif ($ARGV[1] eq "table") {
-    plot_tip_func_table($main_path);
-  }
+  print "ok\n";
+}
+else {
+  print "Please specify the right report type.\n";
+  exit;
+}
 
-exit;
+## Hash and array variables modified in Data::Walk should be global (weird..)
+my %chosen_func_groups;
+my @func_patterns;
+my %groups_hash;
+my $pattern_regex;
 
 
 #----------------------------------------------------------------------------
@@ -50,28 +59,41 @@ sub convert_hw_event {
 
 #----------------------------------------------------------------------------
 sub extract_func_patterns {
-  my $func_groups = $_[0];
-  my @func_patterns;
+  my %func_groups_json = %{$_[0]};
+  my @specified_func_groups = @{$_[1]};
 
-  ## Extract only function patterns from multidimensional hash
-  sub process {
+  undef %chosen_func_groups;
+  undef @func_patterns;
+
+  sub find_and_save_group {
+    if ( $_ eq $specified_func_groups[0]) {
+      $chosen_func_groups{$_} = $Data::Walk::container->{$_};
+    }
+  }
+  walk \&find_and_save_group, \%func_groups_json;
+
+  if (!(%chosen_func_groups)) {
+    $chosen_func_groups{"Custom"} = \@specified_func_groups;
+  }
+
+  ## Extract function patterns from chosen groups
+  sub get_patterns {
     if ( (ref($_) eq 'ARRAY') ) {
       for my $pattern (@{$_}) {
        push @func_patterns, $pattern;
       }
     }
   }
-
-  walk \&process, $func_groups;
+  walk \&get_patterns, \%chosen_func_groups;
 
   ## Construct a single regex to match any of func patterns
-  my $pattern_regex;
+  my $pat_regex;
   for my $single_pattern (@func_patterns) {
-    $pattern_regex .= "(".$single_pattern.")";
+    $pat_regex .= "(".$single_pattern.")";
   }
-  $pattern_regex =~ s/\)\(/\)|\(/g;
+  $pat_regex =~ s/\)\(/\)|\(/g;
 
-  return $pattern_regex;
+  return ($pat_regex, %chosen_func_groups);
 }
 #----------------------------------------------------------------------------
 
@@ -80,7 +102,7 @@ sub extract_func_groups {
   my $func_groups = $_[0];
   my $func_pattern_hash = $_[1];
 
-  my %groups_hash;
+  undef %groups_hash;
 
   sub process_2 {
     my $elem = $_;
@@ -94,7 +116,8 @@ sub extract_func_groups {
   }
   walk \&process_2, $func_groups;
 
-  my $pattern_regex;
+  undef $pattern_regex;
+
   for my $group_key (keys %groups_hash) {
     $pattern_regex = "";
     for (@{$groups_hash{$group_key}}) {
@@ -193,7 +216,10 @@ else {
 ## The number of functions to display
 my $top_n = shift @{$extract_desc->{"func_num"}};
 my @events = @{$extract_desc->{"events"}};
-my @func_groups = $extract_desc->{"func_pattern"};
+my $func_groups = $extract_desc->{"func_pattern"};
+
+my %total_group_result;
+
 
 ## for each experiment - display the report
 for my $report_name (keys %{$reports}) {
@@ -226,16 +252,18 @@ for my $report_name (keys %{$reports}) {
   
   my %func_pattern_hash;
 
+
   my $func_groups_json = decode_json_file("${main_path}/func_groups.json");
-  my $pattern_regex = extract_func_patterns($func_groups_json, \@func_groups);
+
+  ## Combine all the regexs from chosen function groups into a single one
+  my ($pattern_regexp, %chosen_groups) = extract_func_patterns($func_groups_json, $func_groups);
 
   ## Choose functions which correspond to user-specified pattern
   for my $funcs (keys %{$parsed_report}) {
-    if ($funcs =~ /$pattern_regex/) {
+    if ($funcs =~ /$pattern_regexp/) {
       $func_pattern_hash{"$funcs"} = $parsed_report->{$funcs};
     }
   }
-
 
   my $sort_param = $extract_desc->{"sort"}[0];
 
@@ -244,7 +272,6 @@ for my $report_name (keys %{$reports}) {
 
   ## If sorting parameter is a metric 
   if (exists $metric_formulas->{$sort_param}) {
-
     $sort_param_is_metric = "true";
 
     ## Calculate metric for all the selected functions
@@ -268,17 +295,21 @@ for my $report_name (keys %{$reports}) {
     }
   }
 
-  ## STARTING FROM HERE WE NEED TO PUT FUNCS INTO GROUPS
-  my $groups = extract_func_groups($func_groups_json, \%func_pattern_hash);
-  
+  my $groups = extract_func_groups(\%chosen_groups, \%func_pattern_hash);
+
   my $tabulation = "";
   my $level = 0;
 
-  my %total_group_result;
+  undef %total_group_result;
 
 #----------------------------------------------------------------------------
 sub hash_walk {
-    my ($hash, $key_list, $callback) = @_;
+#    my ($hash, %func_pattern_hash, $key_list, $callback) = @_;
+    my $hash = $_[0];
+    my %func_pattern_hash = %{$_[1]};
+    my $key_list = $_[2];
+    my $callback = $_[3];
+
     while (my ($k, $v) = each %$hash) {
         # Keep track of the hierarchy of keys, in case
         # our callback needs it.
@@ -289,13 +320,13 @@ sub hash_walk {
           print $tabulation, "--------$k-----------------------------\n";
           $tabulation .= "\t";
           ## Recurse.
-          hash_walk($v, $key_list, $callback);
+          hash_walk($v, \%func_pattern_hash, $key_list, $callback);
         }
         else {
             # Otherwise, invoke our callback, passing it
             # the current key and value, along with the
             # full parentage of that key.
-            my $percent_event_hash = $callback->($k, $v, $key_list);
+            my $percent_event_hash = $callback->($k, $v, \%func_pattern_hash, $key_list);
             pop @$key_list;
             ## add to all the parent groups
             for my $parent_group (@$key_list) {
@@ -305,7 +336,6 @@ sub hash_walk {
             }
             next;
         }
-
 
         chop $tabulation;
 
@@ -332,9 +362,11 @@ sub hash_walk {
 
 #----------------------------------------------------------------------------
 sub print_keys_and_value {
-  my ($k, $v, $key_list) = @_;
-  #printf "k = %-8s  v = %-4s  key_list = [%s]\n", $k, $v, "@$key_list";
-  #print Dumper $v;
+
+  my $k = $_[0];
+  my $v = $_[1];
+  my %func_pattern_hash = %{$_[2]};
+  my $key_list = $_[3];
 
   my @sorted;
   my %func_pattern_hash_group = %{$groups->{$k}};
@@ -420,7 +452,8 @@ sub print_keys_and_value {
 }
 #----------------------------------------------------------------------------
 
-  hash_walk($func_groups_json, [], \&print_keys_and_value);
+#  hash_walk(\%chosen_groups, \%func_pattern_hash, \%total_group_result, [], \&print_keys_and_value);
+  hash_walk(\%chosen_groups, \%func_pattern_hash, [], \&print_keys_and_value);
 
 }
 
