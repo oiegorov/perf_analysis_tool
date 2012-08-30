@@ -8,8 +8,9 @@ process is automated and requires only several concise specification
 files. 
 2) after the performance results of all the experiments are obtained,
 show only selected information (e.g. only 20 functions with the biggest
-CPI ratio for 2 specific circuits ran on 4 cores). Such reports are
-generated using the performance data collected during the
+CPI ratio for 2 specific circuits ran on 4 cores, or a graph of the
+transient simulation time depending on the hm_dss_schurs value). Such
+reports are generated using the performance data collected during the
 first step.
 
 See the Vtune Amplifier and Perf use cases and sample configuration
@@ -42,6 +43,7 @@ list of hardware events available on specific Intel architecture can be
 checked on Intel website.
 
 The optional parameters are:
+* ("define") specify which macros from the .cir file to enable.
 * ("repeat_num") number of experiment repetitions. By default each
 experiment is launched only once.
 
@@ -92,7 +94,22 @@ Linux (PCL) event names, e.g:
 }
 ```
 
-5. extract_desc.json
+5. func_groups.json
+----------------------------------------------------------------------
+Defines the groups of functions to output in results report. Function
+names can be specified using regexs. For example:
+```
+{
+  "All": {
+    "Mos": ["^Gudm.*", "^bsim4.*"],
+    ...
+  },
+  ...
+}
+```
+
+
+6. extract_desc.json
 ----------------------------------------------------------------------
 Specifies the information we want to include in a particular performance
 report. 
@@ -104,7 +121,7 @@ After a particular set of experiments is chosen, the user can specify
 more precisely which performance information will be included in the
 report. The possible parameters are:
 * ("func_pattern") to output only the functions which correspond to
-specified regex.
+specified regex or the group name from func_groups.json file.
 * ("sort") to sort the chosen functions based on the value of a
 specific performance event/metric.
 * ("func_num") include only N functions with the biggest sorting
@@ -126,7 +143,7 @@ http://software.intel.com/sites/products/documentation/hpc/amplifierxe/en-us/201
 The performance analysis automate tool consists of the following perl
 scripts:
 
-script prepare_experiments.pl
+./prepare_experiments.pl path_to_experiment_folder
 ----------------------------------------------------------------------
 This script setups all the experiments to be conducted. Based on the
 user-specified circuits, number of cores, and other specifications from
@@ -134,7 +151,12 @@ experim_desc.json, as well as parameter configurations from conf.json,
 the script creates descriptions for each experiment (written to
 full_experim_desc.json file) and a directory tree to store the results.
 
-script launch_commands.pl
+If path_to_experiment_folder is not specified, automatically creates an
+experiment folder and copies sample configuration files (from sample/
+folder) to it. Then asks to relaunch script after the configuration
+files are modified.
+
+./launch_commands.pl path_to_experiment_folder
 ----------------------------------------------------------------------
 Constructs and executes the commands taking as an input the descriptions of
 experiments created by prepare_experiments.pl script and configurations
@@ -144,15 +166,19 @@ by prepare_experiments.pl script directories.
 After all the experiments have been conducted, the next step lies
 in generating various information about obtained performance data.
 
-script extract_views.pl
+script extract_views.pl path_to_experiment_folder
 ----------------------------------------------------------------------
 Simply checks which views are specified in extract_desc.json file and
 leaves only those experiments that satisfy these views. Generated file
 views.json contains a subset of functions from full_experim_desc.json.
 
-script create_report.pl
+script create_report.pl path_to_experiment_folder table|graph
 ----------------------------------------------------------------------
-Generates a report using specific to profiler .pm perl module. 
+Generates a report using specific to profiler .pm perl module. If
+"table" is specified as the last parameter -- outputs the report table.
+If the last parameter is "graph" -- a png image containing the graph
+(simulation time vs the value of hm_dss_schurs) is saved into
+experiment folder.
 
 The goal of ParseAmplReport.pm and ParsePerfReport.pm perl modules is to
 provide a uniform representation of collected performance data generated
@@ -184,6 +210,10 @@ total count of each event for all the selected functions in the form:
 This way, the create_report.pl script outputs as well the relative % of
 events collected for displayed functions to the total number of events
 for all the functions.
+
+BuildGraph.pm module allows to build the graph using Gnuplot (the path
+to Gnuplot should be verified!), and is called by create_report.pl
+script.
 
                           USE CASES
 ======================================================================
@@ -267,14 +297,16 @@ want to launch. For example:
       "/home/oiegorov/eldo_examples/bad/VSC1414_VCO_modified/VSC1414-VCO.cir"
   ],
   "num_cores": ["1", "4"],
+  "define": ["DSS_SCHURS_1000000", "DSS_SCHURS_2000000"]
   "events": ["CPU_CLK_UNHALTED.THREAD", "INST_RETIRED.ANY", "CPI"],
   "repeat_num": [ "2" ]
 }
 ```
 
-Such configuration tells that we want to test two circuits on 1 and 8 cores
-each, collect the number of cycles and instructions, as well as automatically
-calculate CPI metric. Each experiment should be launched two times.
+Such configuration tells that we want to test two circuits on 1 and 8
+cores each, collect the number of cycles and instructions, as well as
+automatically calculate CPI metric. Each experiment should be launched
+two times. 
 
 The next step is to add some specific metric formulas to metrics.json file or
 add some new events to events.json file. 
@@ -309,12 +341,13 @@ appear in the report. This is specified in extract_desc.json file:
 }
 ```
 
-What is specified here is that we want to output the performance data only for
-one circuit, ran on 1 and 8 cores, "same_experim" says that the performance
-data only for a single repetition must be outputed. The events we want to see
-are CPU cycles, instructions and CPI metrics. The functions will be sorted by
-the number of cycles in descending order, with only first 15 of them displayed.
-We do not impose any restrictions on function names, as regex ".*" specifies.
+What is specified here is that we want to output the performance data
+only for one circuit, ran on 1 and 8 cores. "same_experim" says that the
+performance data only for a single repetition must be outputed. The
+events we want to see are CPU cycles, instructions and CPI metrics. The
+functions will be sorted by the number of cycles in descending order,
+with only first 15 of them displayed.  We do not impose any restrictions
+on function names, as regex ".*" specifies.
 
 ```
 ./extract_views.pl /home/oiegorov/experim_tool/experiment____14_13_50__30_07_2012/
@@ -562,7 +595,17 @@ in experim_desc.json file:
 that''s it.
 
 
-
+--------------------------------------------------------------------
+Attention!!!
+--------------------------------------------------------------------
+It can occur that you want to add some experiments to an already existed
+experiment folder. You modify experim_desc.json, and then run
+./prepare_experiments.pl and ./launch_commands.pl scripts. If you then
+want to include in the report data for the experiments that were ran
+before, you need to:
+a) include them into experim_desc.json
+b) re-run prepare_experiments.pl
+c) continue with extract_views.pl and create_report.pl.
 
 --------------------------------------------------------------------
 How to use native platform''s hardware performance events with Perf

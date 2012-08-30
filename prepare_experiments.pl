@@ -34,6 +34,7 @@ if ( ($arg eq "perf") or ($arg eq "vtune") ) {
   copy(getcwd."/sample/extract_desc_${arg}.json", $main_path."/extract_desc.json") or die "Copy failed: $!";
   copy(getcwd."/sample/metrics.json", $main_path."/metrics.json") or die "Copy failed: $!";
   copy(getcwd."/sample/events.json", $main_path."/events.json") or die "Copy failed: $!";
+  copy(getcwd."/sample/func_groups.json", $main_path."/func_groups.json") or die "Copy failed: $!";
   print "Sample configurations files were copied to ", $main_path, "/\n\n";
   print "Please modify the configuration files and run this script again", 
     " specifying the newly created experiment directory:\n";
